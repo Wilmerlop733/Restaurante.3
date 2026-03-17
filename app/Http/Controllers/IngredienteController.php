@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ingrediente;
 use Illuminate\Http\Request;
 
 class IngredienteController extends Controller
@@ -11,7 +12,8 @@ class IngredienteController extends Controller
      */
     public function index()
     {
-        //
+        $ingredientes = Ingrediente::all();
+        return view('Ingredientes.index')->with('resultado', $ingredientes);
     }
 
     /**
@@ -20,6 +22,7 @@ class IngredienteController extends Controller
     public function create()
     {
         //
+        return view('Ingredientes.create');
     }
 
     /**
@@ -27,7 +30,14 @@ class IngredienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Sirve para guardar datos en la base
+        $ingrediente = new Ingrediente();
+        $ingrediente->idingredientes = $request->get('idingredientes');
+        $ingrediente->nombreingre = $request->get('nombreingre');
+        $ingrediente->inventario = $request->get('inventario');
+        $ingrediente->save();
+
+        return redirect('/ingredientes');
     }
 
     /**
@@ -36,6 +46,8 @@ class IngredienteController extends Controller
     public function show(string $id)
     {
         //
+        $ingrediente = Ingrediente::find($id);
+        return view('Ingredientes.delete')->with('ingredienteE', $ingrediente);
     }
 
     /**
@@ -44,6 +56,9 @@ class IngredienteController extends Controller
     public function edit(string $id)
     {
         //
+        $ingrediente = Ingrediente::find($id);
+
+        return view('Ingredientes.edit')->with('ingredienteE', $ingrediente);
     }
 
     /**
@@ -52,6 +67,13 @@ class IngredienteController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $ingrediente = Ingrediente::find($id);
+        $ingrediente->idingredientes = $request->get('idingredientes');
+        $ingrediente->nombreingre = $request->get('nombreingre');
+        $ingrediente->inventario = $request->get('inventario');
+        $ingrediente->save();
+
+        return redirect('/ingredientes');
     }
 
     /**
@@ -60,5 +82,9 @@ class IngredienteController extends Controller
     public function destroy(string $id)
     {
         //
+        $eliminado = Ingrediente::find($id);
+        $eliminado->delete();
+
+        return redirect('/ingredientes');
     }
 }

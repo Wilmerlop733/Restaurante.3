@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Receta;
 use Illuminate\Http\Request;
 
 class RecetaController extends Controller
@@ -11,7 +12,8 @@ class RecetaController extends Controller
      */
     public function index()
     {
-        //
+        $recetas = Receta::all();
+        return view('Recetas.index')->with('resultado', $recetas);
     }
 
     /**
@@ -20,6 +22,7 @@ class RecetaController extends Controller
     public function create()
     {
         //
+        return view('Recetas.create');
     }
 
     /**
@@ -27,7 +30,14 @@ class RecetaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Sirve para guardar datos en la base
+        $receta = new Receta();
+        $receta->idreceta = $request->get('idreceta');
+        $receta->cantidad = $request->get('cantidad');
+        $receta->unidad_medida = $request->get('unidad_medida');
+        $receta->save();
+
+        return redirect('/recetas');
     }
 
     /**
@@ -36,6 +46,8 @@ class RecetaController extends Controller
     public function show(string $id)
     {
         //
+        $receta = Receta::find($id);
+        return view('Recetas.delete')->with('recetaE', $receta);
     }
 
     /**
@@ -44,6 +56,9 @@ class RecetaController extends Controller
     public function edit(string $id)
     {
         //
+        $receta = Receta::find($id);
+
+        return view('Recetas.edit')->with('recetaE', $receta);
     }
 
     /**
@@ -52,6 +67,13 @@ class RecetaController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $receta = Receta::find($id);
+        $receta->idreceta = $request->get('idreceta');
+        $receta->cantidad = $request->get('cantidad');
+        $receta->unidad_medida = $request->get('unidad_medida');
+        $receta->save();
+
+        return redirect('/recetas');
     }
 
     /**
@@ -60,5 +82,9 @@ class RecetaController extends Controller
     public function destroy(string $id)
     {
         //
+        $eliminado = Receta::find($id);
+        $eliminado->delete();
+
+        return redirect('/recetas');
     }
 }
