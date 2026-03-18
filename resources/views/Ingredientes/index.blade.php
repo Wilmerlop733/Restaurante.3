@@ -15,8 +15,8 @@
       <a href="/" class="btn btn-secondary mb-3">Volver al Menú</a>
       <a href="/ingredientes/create" class="btn btn-primary mb-3">Crear Ingrediente</a>
 
-      <table border="1" class="table">
-        <thead>
+      <table class="table">
+        <thead class="table-light">
           <tr>
             <th>Id</th>
             <th>Nombre</th>

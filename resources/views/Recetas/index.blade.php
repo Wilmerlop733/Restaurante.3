@@ -9,13 +9,14 @@
   </head>
 
   <body>
-    <div class="container">
+    <div class="container mt-5">
       <h1>Listas de Recetas</h1>
-    <a href="/" class="btn btn-secondary mb-3">Volver al Menú</a>
-      <a href="/recetas/create" class="btn btn-primary">Crear Receta</a>
 
-      <table border="1" class="table">
-        <thead>
+      <a href="/" class="btn btn-secondary mb-3">Volver al Menú</a>
+      <a href="/recetas/create" class="btn btn-primary mb-3">Crear Receta</a>
+
+      <table class="table">
+        <thead class="table-light">
           <tr>
             <th>Id</th>
             <th>Cantidad</th>

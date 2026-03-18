@@ -10,7 +10,7 @@
 
 <body>
   <div class="container mt-4">
-    <h1>Editar Categoria</h1>
+    <h2>Editar Categoria</h2>
 
     <form action="/categorias/{{$categoriaE->id}}" method="POST">
       @csrf

@@ -15,8 +15,8 @@
       <a href="/" class="btn btn-secondary mb-3">Volver al Menú</a>
       <a href="/platos/create" class="btn btn-primary mb-3">Crear Plato</a>
 
-      <table border="1" class="table">
-        <thead>
+      <table class="table">
+        <thead class="table-light">
           <tr>
             <th>Id</th>
             <th>Nombre(Plato)</th>
@@ -35,9 +35,15 @@
             <td>{{$plato->id}}</td>
             <td>{{$plato->nombreplato}}</td>
             <td>{{$plato->descripcionplato}}</td>
-            <td>{{$plato->foto}}</td>
+            <td>
+              @if($plato->foto)
+                <img src="/comidas/{{$plato->foto}}" class="rounded shadow-sm" style="width: 80px; height: 60px; object-fit: cover;" alt="{{$plato->nombreplato}}">
+              @else
+                <img src="/imag/restaurante.png" class="rounded shadow-sm" style="width: 80px; height: 60px; object-fit: cover; opacity: 0.5;" alt="Sin foto">
+              @endif
+            </td>
             <td>{{$plato->niveldicultad}}</td>
-            <td>{{$plato->precio}}</td>
+            <td>L. {{$plato->precio}}</td>
 
             <td>
               <a href="/platos/{{$plato->id}}/edit" class="btn btn-success">Editar</a>

@@ -12,12 +12,28 @@
   <div class="container mt-5 text-center">
     <h1 class="mb-4">Menú</h1>
     
-   
-    <div class="d-grid gap-2 col-6 mx-auto">
-      <a href="/categorias" class="btn btn-primary">Categorias</a>
-      <a href="/ingredientes" class="btn btn-secondary">Ingredientes</a>
-      <a href="/platos" class="btn btn-success">Platos</a>
-      <a href="/recetas" class="btn btn-info">Recetas</a>
+    <div class="dropdown mb-4">
+      <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Opciones del Sistema
+      </button>
+      <ul class="dropdown-menu mx-auto">
+        <li><a class="dropdown-item" href="/categorias">Categorias</a></li>
+        <li><a class="dropdown-item" href="/ingredientes">Ingredientes</a></li>
+        <li><a class="dropdown-item" href="/platos">Platos</a></li>
+        <li><a class="dropdown-item" href="/recetas">Recetas</a></li>
+      </ul>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <img src="/imag/jay-wennington-N_Y88TWmGwA-unsplash.jpg" class="img-fluid rounded shadow-sm" alt="Plato 1">
+      </div>
+      <div class="col-md-4">
+        <img src="/imag/tim-mossholder-FH3nWjvia-U-unsplash (1).jpg" class="img-fluid rounded shadow-sm" alt="Plato 2">
+      </div>
+      <div class="col-md-4">
+        <img src="/imag/sandra-seitamaa-OFJGlG3sKik-unsplash.jpg" class="img-fluid rounded shadow-sm" alt="Plato 3">
+      </div>
     </div>
   </div>
 

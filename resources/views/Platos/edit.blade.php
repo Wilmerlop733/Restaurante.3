@@ -38,12 +38,20 @@
 
       <div class="mb-3">
         <label for="foto" class="form-label">Foto</label>
-        <input type="text" class="form-control" name="foto" id="foto" value="{{$platoE->foto}}" required>
+        <select class="form-select" name="foto" id="foto" required>
+          @foreach($imagenes as $imagen)
+            <option value="{{$imagen}}" {{$platoE->foto == $imagen ? 'selected' : ''}}>{{$imagen}}</option>
+          @endforeach
+        </select>
       </div>
 
       <div class="mb-3">
         <label for="niveldicultad" class="form-label">Nivel Dificultad</label>
-        <input type="text" class="form-control" name="niveldicultad" id="niveldicultad" value="{{$platoE->niveldicultad}}" required>
+        <select class="form-select" name="niveldicultad" id="niveldicultad" required>
+          <option value="Fácil" {{$platoE->niveldicultad == 'Fácil' ? 'selected' : ''}}>Fácil</option>
+          <option value="Medio" {{$platoE->niveldicultad == 'Medio' ? 'selected' : ''}}>Medio</option>
+          <option value="Difícil" {{$platoE->niveldicultad == 'Difícil' ? 'selected' : ''}}>Difícil</option>
+        </select>
       </div>
 
       <div class="mb-3">

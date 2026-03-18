@@ -10,7 +10,8 @@
 
 <body>
   <div class="container mt-4">
-    <h1>Eliminar Categoria</h1>
+    <h2>Eliminar Categoria</h2>
+
 
     <form action="/categorias/{{$categoriaE->id}}" method="POST">
       @csrf
@@ -41,8 +42,9 @@
         <input type="text" class="form-control" name="encargadocat" id="encargadocat" value="{{$categoriaE->encargadocat}}" readonly>
       </div>
 
-      <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>
+      <button type="submit" class="btn btn-danger">Eliminar</button>
       <a href="/categorias" class="btn btn-secondary">Volver</a>
+
     </form>
   </div>
 

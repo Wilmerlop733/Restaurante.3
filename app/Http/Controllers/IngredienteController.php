@@ -30,7 +30,7 @@ class IngredienteController extends Controller
      */
     public function store(Request $request)
     {
-        //Sirve para guardar datos en la base
+        // 
         $ingrediente = new Ingrediente();
         $ingrediente->idingredientes = $request->get('idingredientes');
         $ingrediente->nombreingre = $request->get('nombreingre');

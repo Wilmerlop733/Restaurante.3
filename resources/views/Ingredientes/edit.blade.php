@@ -12,6 +12,7 @@
   <div class="container mt-4">
     <h1>Editar Ingrediente</h1>
 
+
     <form action="/ingredientes/{{$ingredienteE->id}}" method="POST">
       @csrf
       @method('PUT')
@@ -36,8 +37,9 @@
         <input type="text" class="form-control" name="inventario" id="inventario" value="{{$ingredienteE->inventario}}" required>
       </div>
 
-      <button type="submit" class="btn btn-primary">Actualizar Ingrediente</button>
+      <button type="submit" class="btn btn-primary">Actualizar</button>
       <a href="/ingredientes" class="btn btn-secondary">Volver</a>
+
     </form>
   </div>
 

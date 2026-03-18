@@ -30,7 +30,7 @@ class RecetaController extends Controller
      */
     public function store(Request $request)
     {
-        //Sirve para guardar datos en la base
+        //
         $receta = new Receta();
         $receta->idreceta = $request->get('idreceta');
         $receta->cantidad = $request->get('cantidad');

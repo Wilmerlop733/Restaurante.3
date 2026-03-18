@@ -30,8 +30,9 @@
         <input type="text" class="form-control" name="inventario" id="inventario" required>
       </div>
 
-      <button type="submit" class="btn btn-primary">Guardar Ingrediente</button>
+      <button type="submit" class="btn btn-primary">Guardar</button>
       <a href="/ingredientes" class="btn btn-secondary">Volver</a>
+
     </form>
   </div>
 

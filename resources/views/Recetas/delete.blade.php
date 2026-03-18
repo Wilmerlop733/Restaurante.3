@@ -37,6 +37,7 @@
       </div>
 
       <button type="submit" class="btn btn-danger">Eliminar Receta</button>
+      <a href="/recetas" class="btn btn-secondary">Volver</a>
     </form>
   </div>
 

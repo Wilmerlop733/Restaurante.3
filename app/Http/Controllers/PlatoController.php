@@ -21,8 +21,9 @@ class PlatoController extends Controller
      */
     public function create()
     {
-        //
-        return view('Platos.create');
+        $directorio = public_path('comidas');
+        $imagenes = array_diff(scandir($directorio), array('..', '.'));
+        return view('Platos.create')->with('imagenes', $imagenes);
     }
 
     /**
@@ -30,7 +31,7 @@ class PlatoController extends Controller
      */
     public function store(Request $request)
     {
-        //Sirve para guardar datos en la base
+        //
         $plato = new Plato();
         $plato->idplato = $request->get('idplato');
         $plato->nombreplato = $request->get('nombreplato');
@@ -58,10 +59,13 @@ class PlatoController extends Controller
      */
     public function edit(string $id)
     {
-        //
         $plato = Plato::find($id);
+        $directorio = public_path('comidas');
+        $imagenes = array_diff(scandir($directorio), array('..', '.'));
 
-        return view('Platos.edit')->with('platoE', $plato);
+        return view('Platos.edit')
+            ->with('platoE', $plato)
+            ->with('imagenes', $imagenes);
     }
 
     /**

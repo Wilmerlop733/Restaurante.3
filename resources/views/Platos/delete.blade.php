@@ -10,7 +10,7 @@
 
 <body>
   <div class="container mt-4">
-    <h1>Eliminar Plato</h1>
+    <h1>¿Desea eliminar este registro?</h1>
 
     <form action="/platos/{{$platoE->id}}" method="POST">
       @csrf

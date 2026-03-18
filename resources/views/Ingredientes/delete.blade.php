@@ -10,7 +10,7 @@
 
 <body>
   <div class="container mt-4">
-    <h1>Eliminar Ingrediente</h1>
+    <h1>¿Desea eliminar este registro?</h1>
 
     <form action="/ingredientes/{{$ingredienteE->id}}" method="POST">
       @csrf
@@ -38,6 +38,7 @@
 
       <button type="submit" class="btn btn-danger">Eliminar Ingrediente</button>
       <a href="/ingredientes" class="btn btn-secondary">Volver</a>
+
     </form>
   </div>
 

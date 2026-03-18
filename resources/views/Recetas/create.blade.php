@@ -27,10 +27,23 @@
 
       <div class="mb-3">
         <label for="unidad_medida" class="form-label">Unidad de Medida</label>
-        <input type="text" class="form-control" name="unidad_medida" id="unidad_medida" required>
+        <select class="form-select" name="unidad_medida" id="unidad_medida" required>
+          <option value="" disabled selected>Seleccione una unidad</option>
+          <option value="Gramos (g)">Gramos (g)</option>
+          <option value="Kilogramos (kg)">Kilogramos (kg)</option>
+          <option value="Mililitros (ml)">Mililitros (ml)</option>
+          <option value="Litros (L)">Litros (L)</option>
+          <option value="Libras (lb)">Libras (lb)</option>
+          <option value="Onzas (oz)">Onzas (oz)</option>
+          <option value="Cucharadas">Cucharadas</option>
+          <option value="Cucharaditas">Cucharaditas</option>
+          <option value="Tazas">Tazas</option>
+          <option value="Unidades">Unidades</option>
+        </select>
       </div>
 
       <button type="submit" class="btn btn-primary">Guardar Receta</button>
+      <a href="/recetas" class="btn btn-secondary">Volver</a>
     </form>
   </div>
 

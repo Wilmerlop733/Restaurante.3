@@ -10,7 +10,7 @@
 
 <body>
   <div class="container mt-4">
-    <h1>Crear Categoria</h1>
+    <h2>Agregar Nueva Categoria</h2>
 
     <form action="/categorias" method="POST">
       @csrf

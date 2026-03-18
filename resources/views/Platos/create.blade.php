@@ -32,12 +32,22 @@
 
       <div class="mb-3">
         <label for="foto" class="form-label">Foto</label>
-        <input type="text" class="form-control" name="foto" id="foto" required>
+        <select class="form-select" name="foto" id="foto" required>
+          <option value="" disabled selected>Seleccione una imagen</option>
+          @foreach($imagenes as $imagen)
+            <option value="{{$imagen}}">{{$imagen}}</option>
+          @endforeach
+        </select>
       </div>
 
       <div class="mb-3">
         <label for="niveldicultad" class="form-label">Nivel Dificultad</label>
-        <input type="text" class="form-control" name="niveldicultad" id="niveldicultad" required>
+        <select class="form-select" name="niveldicultad" id="niveldicultad" required>
+          <option value="" disabled selected>Seleccione un nivel</option>
+          <option value="Fácil">Fácil</option>
+          <option value="Medio">Medio</option>
+          <option value="Difícil">Difícil</option>
+        </select>
       </div>
 
       <div class="mb-3">
