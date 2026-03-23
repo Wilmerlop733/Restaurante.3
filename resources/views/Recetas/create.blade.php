@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crear Receta</title>
+  <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+    }
+  </script>
   <link rel="icon" href="/restaurante.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -12,12 +17,39 @@
   <div class="container mt-4">
     <h1>Crear Receta</h1>
 
-    <form action="/recetas" method="POST">
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+
+    <form action="/receta" method="POST">
       @csrf
 
       <div class="mb-3">
-        <label for="idreceta" class="form-label">IdReceta</label>
-        <input type="text" class="form-control" name="idreceta" id="idreceta" required>
+        <label for="idplato" class="form-label">Plato</label>
+        <select class="form-select" name="idplato" id="idplato" required>
+          <option value="" disabled {{ !isset($dIdplato) ? 'selected' : '' }}>Seleccione un plato</option>
+          @foreach($dPlatos as $plato)
+            <option value="{{$plato->id}}" {{ (isset($dIdplato) && $dIdplato == $plato->id) ? 'selected' : '' }}>
+              {{$plato->nombreplato}}
+            </option>
+          @endforeach
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="idingredientes" class="form-label">Ingrediente</label>
+        <select class="form-select" name="idingredientes" id="idingredientes" required>
+          <option value="" disabled selected>Seleccione un ingrediente</option>
+          @foreach($dIngredientes as $ingre)
+            <option value="{{$ingre->id}}">{{$ingre->nombreingre}}</option>
+          @endforeach
+        </select>
       </div>
 
       <div class="mb-3">
@@ -43,7 +75,7 @@
       </div>
 
       <button type="submit" class="btn btn-primary">Guardar Receta</button>
-      <a href="/recetas" class="btn btn-secondary">Volver</a>
+      <a href="#" onclick="history.back()" class="btn btn-secondary">Volver</a>
     </form>
   </div>
 

@@ -3,98 +3,123 @@
 namespace App\Http\Controllers;
 
 use App\Models\Plato;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 
 class PlatoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function verplatos(string $id)
+    {
+        $categoria = Categoria::find($id);
+        $platos = Plato::where('idcategoria', '=', $id)->get();
+        return view('Platos.index')
+            ->with('dPlatos', $platos)
+            ->with('dInfoCategoria', $categoria);
+    }
+
     public function index()
     {
-        $platos = Plato::all();
-        return view('Platos.index')->with('resultado', $platos);
+        $listaPlatos = Plato::all();
+        return view('Platos.index')->with('dPlatos', $listaPlatos);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $directorio = public_path('comidas');
-        $imagenes = array_diff(scandir($directorio), array('..', '.'));
-        return view('Platos.create')->with('imagenes', $imagenes);
+        $rutaComidas = public_path('Comidas');
+        $listaDeImagenes = array_diff(scandir($rutaComidas), array('..', '.'));
+        $todasLasCategorias = Categoria::all();
+        $idCategoriaDeLaURL = request()->get('idcategoria');
+
+        return view('Platos.create')
+            ->with('dImagenes', $listaDeImagenes)
+            ->with('dCategorias', $todasLasCategorias)
+            ->with('dIdcategoria', $idCategoriaDeLaURL);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-        $plato = new Plato();
-        $plato->idplato = $request->get('idplato');
-        $plato->nombreplato = $request->get('nombreplato');
-        $plato->descripcionplato = $request->get('descripcionplato');
-        $plato->foto = $request->get('foto');
-        $plato->niveldicultad = $request->get('niveldicultad');
-        $plato->precio = $request->get('precio');
-        $plato->save();
+        $request->validate([
+            'idcategoria' => 'required',
+            'nombreplato' => 'required|string|max:100',
+            'descripcionplato' => 'required|string|max:255',
+            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'niveldicultad' => 'required',
+            'precio' => 'required|numeric|min:0',
+        ]);
 
-        return redirect('/platos');
+        $nuevoPlato = new Plato();
+        $nuevoPlato->idcategoria = $request->idcategoria;
+        $nuevoPlato->nombreplato = $request->nombreplato;
+        $nuevoPlato->descripcionplato = $request->descripcionplato;
+        $nuevoPlato->niveldicultad = $request->niveldicultad;
+        $nuevoPlato->precio = $request->precio;
+
+        if ($request->hasFile('foto')) {
+            $archivoFoto = $request->file('foto');
+            $nombreArchivo = time() . '_' . $archivoFoto->getClientOriginalName();
+            $archivoFoto->move(public_path('Comidas'), $nombreArchivo);
+            $nuevoPlato->foto = $nombreArchivo;
+        }
+
+        $nuevoPlato->save();
+
+        return redirect('/plato');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
-        $plato = Plato::find($id);
-        return view('Platos.delete')->with('platoE', $plato);
+        $platoEncontrado = Plato::find($id);
+        return view('Platos.delete')->with('dPlatoE', $platoEncontrado);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        $plato = Plato::find($id);
-        $directorio = public_path('comidas');
-        $imagenes = array_diff(scandir($directorio), array('..', '.'));
+        $platoAEditar = Plato::find($id);
+        $rutaComidas = public_path('Comidas');
+        $listaDeImagenes = array_diff(scandir($rutaComidas), array('..', '.'));
+        $todasLasCategorias = Categoria::all();
 
         return view('Platos.edit')
-            ->with('platoE', $plato)
-            ->with('imagenes', $imagenes);
+            ->with('dPlatoE', $platoAEditar)
+            ->with('dImagenes', $listaDeImagenes)
+            ->with('dCategorias', $todasLasCategorias);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
-        $plato = Plato::find($id);
-        $plato->idplato = $request->get('idplato');
-        $plato->nombreplato = $request->get('nombreplato');
-        $plato->descripcionplato = $request->get('descripcionplato');
-        $plato->foto = $request->get('foto');
-        $plato->niveldicultad = $request->get('niveldicultad');
-        $plato->precio = $request->get('precio');
-        $plato->save();
+        $request->validate([
+            'idcategoria' => 'required',
+            'nombreplato' => 'required|string|max:100',
+            'descripcionplato' => 'required|string|max:255',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'niveldicultad' => 'required',
+            'precio' => 'required|numeric|min:0',
+        ]);
 
-        return redirect('/platos');
+        $platoExistente = Plato::find($id);
+        $platoExistente->idcategoria = $request->idcategoria;
+        $platoExistente->nombreplato = $request->nombreplato;
+        $platoExistente->descripcionplato = $request->descripcionplato;
+        $platoExistente->niveldicultad = $request->niveldicultad;
+        $platoExistente->precio = $request->precio;
+
+        if ($request->hasFile('foto')) {
+            $archivoNuevo = $request->file('foto');
+            $nombreNuevo = time() . '_' . $archivoNuevo->getClientOriginalName();
+            $archivoNuevo->move(public_path('Comidas'), $nombreNuevo);
+            $platoExistente->foto = $nombreNuevo;
+        }
+
+        $platoExistente->save();
+
+        return redirect('/plato');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
-        $eliminado = Plato::find($id);
-        $eliminado->delete();
+        $platoParaBorrar = Plato::find($id);
+        $platoParaBorrar->delete();
 
-        return redirect('/platos');
+        return redirect('/plato');
     }
 }

@@ -3,88 +3,107 @@
 namespace App\Http\Controllers;
 
 use App\Models\Receta;
+use App\Models\Plato;
+use App\Models\Ingrediente;
 use Illuminate\Http\Request;
 
 class RecetaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function verreceta(string $id)
+    {
+        $plato = Plato::find($id);
+        $recetas = Receta::where('idplato', '=', $id)->get();
+        $ingredientes = Ingrediente::all();
+        
+        return view('Recetas.index')
+            ->with('dRecetas', $recetas)
+            ->with('dInfoPlato', $plato)
+            ->with('dIngredientes', $ingredientes);
+    }
+
     public function index()
     {
         $recetas = Receta::all();
-        return view('Recetas.index')->with('resultado', $recetas);
+        $ingredientes = Ingrediente::all();
+        return view('Recetas.index')
+            ->with('dRecetas', $recetas)
+            ->with('dIngredientes', $ingredientes);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
-        return view('Recetas.create');
+        $idDelPlato = request()->get('idplato');
+        $listaPlatos = Plato::all();
+        $listaIngredientes = Ingrediente::all();
+        
+        return view('Recetas.create')
+            ->with('dIdplato', $idDelPlato)
+            ->with('dPlatos', $listaPlatos)
+            ->with('dIngredientes', $listaIngredientes);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-        $receta = new Receta();
-        $receta->idreceta = $request->get('idreceta');
-        $receta->cantidad = $request->get('cantidad');
-        $receta->unidad_medida = $request->get('unidad_medida');
-        $receta->save();
+        $request->validate([
+            'idplato' => 'required',
+            'idingredientes' => 'required',
+            'cantidad' => 'required|numeric|min:0.01',
+            'unidad_medida' => 'required|string|max:50',
+        ]);
 
-        return redirect('/recetas');
+        $nuevaReceta = new Receta();
+        $nuevaReceta->idplato = $request->idplato;
+        $nuevaReceta->idingredientes = $request->idingredientes;
+        $nuevaReceta->cantidad = $request->cantidad;
+        $nuevaReceta->unidad_medida = $request->unidad_medida;
+        $nuevaReceta->save();
+
+        return redirect('/receta/filtro/' . $nuevaReceta->idplato);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
         $receta = Receta::find($id);
-        return view('Recetas.delete')->with('recetaE', $receta);
+        return view('Recetas.delete')->with('dRecetaE', $receta);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
         $receta = Receta::find($id);
+        $listaPlatos = Plato::all();
+        $listaIngredientes = Ingrediente::all();
 
-        return view('Recetas.edit')->with('recetaE', $receta);
+        return view('Recetas.edit')
+            ->with('dRecetaE', $receta)
+            ->with('dPlatos', $listaPlatos)
+            ->with('dIngredientes', $listaIngredientes);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'idplato' => 'required',
+            'idingredientes' => 'required',
+            'cantidad' => 'required|numeric|min:0.01',
+            'unidad_medida' => 'required|string|max:50',
+        ]);
+
         $receta = Receta::find($id);
-        $receta->idreceta = $request->get('idreceta');
-        $receta->cantidad = $request->get('cantidad');
-        $receta->unidad_medida = $request->get('unidad_medida');
+        $receta->idplato = $request->idplato;
+        $receta->idingredientes = $request->idingredientes;
+        $receta->cantidad = $request->cantidad;
+        $receta->unidad_medida = $request->unidad_medida;
         $receta->save();
 
-        return redirect('/recetas');
+        return redirect('/receta/filtro/' . $receta->idplato);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
-        $eliminado = Receta::find($id);
-        $eliminado->delete();
+        $recetaAEliminar = Receta::find($id);
+        $idDelPlato = $recetaAEliminar->idplato;
+        $recetaAEliminar->delete();
 
-        return redirect('/recetas');
+        return redirect('/receta/filtro/' . $idDelPlato);
     }
 }

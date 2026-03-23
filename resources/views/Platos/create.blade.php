@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crear Plato</title>
+  <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+    }
+  </script>
   <link rel="icon" href="/restaurante.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -12,12 +17,29 @@
   <div class="container mt-4">
     <h1>Crear Plato</h1>
 
-    <form action="/platos" method="POST">
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+
+    <form action="/plato" method="POST" enctype="multipart/form-data">
       @csrf
 
       <div class="mb-3">
-        <label for="idplato" class="form-label">IdPlato</label>
-        <input type="text" class="form-control" name="idplato" id="idplato" required>
+        <label for="idcategoria" class="form-label">Categoría</label>
+        <select class="form-select" name="idcategoria" id="idcategoria" required>
+          <option value="" disabled {{ empty($dIdcategoria) ? 'selected' : '' }}>Seleccione una categoría</option>
+          @foreach($dCategorias as $cat)
+            <option value="{{$cat->id}}" {{ (isset($dIdcategoria) && $dIdcategoria == $cat->id) ? 'selected' : '' }}>
+              {{$cat->nombrecat}}
+            </option>
+          @endforeach
+        </select>
       </div>
 
       <div class="mb-3">
@@ -32,12 +54,7 @@
 
       <div class="mb-3">
         <label for="foto" class="form-label">Foto</label>
-        <select class="form-select" name="foto" id="foto" required>
-          <option value="" disabled selected>Seleccione una imagen</option>
-          @foreach($imagenes as $imagen)
-            <option value="{{$imagen}}">{{$imagen}}</option>
-          @endforeach
-        </select>
+        <input type="file" class="form-control" name="foto" id="foto" accept="image/*" required>
       </div>
 
       <div class="mb-3">
@@ -56,7 +73,7 @@
       </div>
 
       <button type="submit" class="btn btn-primary">Guardar Plato</button>
-      <a href="/platos" class="btn btn-secondary">Volver</a>
+      <a href="#" onclick="history.back()" class="btn btn-secondary">Volver</a>
     </form>
   </div>
 

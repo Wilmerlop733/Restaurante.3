@@ -7,84 +7,66 @@ use Illuminate\Http\Request;
 
 class IngredienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $ingredientes = Ingrediente::all();
-        return view('Ingredientes.index')->with('resultado', $ingredientes);
+        $listaIngredientes = Ingrediente::all();
+        return view('Ingredientes.index')->with('dIngredientes', $listaIngredientes);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
         return view('Ingredientes.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        // 
-        $ingrediente = new Ingrediente();
-        $ingrediente->idingredientes = $request->get('idingredientes');
-        $ingrediente->nombreingre = $request->get('nombreingre');
-        $ingrediente->inventario = $request->get('inventario');
-        $ingrediente->save();
+        $request->validate([
+            'nombreingre' => 'required|string|max:100',
+            'cantidad' => 'required|numeric|min:0',
+            'unidad_medida' => 'required|string',
+        ]);
 
-        return redirect('/ingredientes');
+        $nuevoIngrediente = new Ingrediente();
+        $nuevoIngrediente->nombreingre = $request->nombreingre;
+        $nuevoIngrediente->inventario = $request->cantidad . " " . $request->unidad_medida;
+        $nuevoIngrediente->save();
+
+        return redirect('/ingrediente');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
-        $ingrediente = Ingrediente::find($id);
-        return view('Ingredientes.delete')->with('ingredienteE', $ingrediente);
+        $ingredienteEncontrado = Ingrediente::find($id);
+        return view('Ingredientes.delete')->with('dIngredienteE', $ingredienteEncontrado);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
-        $ingrediente = Ingrediente::find($id);
-
-        return view('Ingredientes.edit')->with('ingredienteE', $ingrediente);
+        $ingredienteAEditar = Ingrediente::find($id);
+        return view('Ingredientes.edit')->with('dIngredienteE', $ingredienteAEditar);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
-        $ingrediente = Ingrediente::find($id);
-        $ingrediente->idingredientes = $request->get('idingredientes');
-        $ingrediente->nombreingre = $request->get('nombreingre');
-        $ingrediente->inventario = $request->get('inventario');
-        $ingrediente->save();
+        $request->validate([
+            'nombreingre' => 'required|string|max:100',
+            'cantidad' => 'required|numeric|min:0',
+            'unidad_medida' => 'required|string',
+        ]);
 
-        return redirect('/ingredientes');
+        $ingredienteExistente = Ingrediente::find($id);
+        $ingredienteExistente->nombreingre = $request->nombreingre;
+        $ingredienteExistente->inventario = $request->cantidad . " " . $request->unidad_medida;
+        $ingredienteExistente->save();
+
+        return redirect('/ingrediente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
-        $eliminado = Ingrediente::find($id);
-        $eliminado->delete();
+        $ingredienteParaBorrar = Ingrediente::find($id);
+        $ingredienteParaBorrar->delete();
 
-        return redirect('/ingredientes');
+        return redirect('/ingrediente');
     }
 }

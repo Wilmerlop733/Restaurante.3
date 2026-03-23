@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('recetas', function (Blueprint $table) {
             $table->id();
-            $table->integer('idreceta');
+            $table->foreignId('idplato');
+            $table->foreignId('idingredientes');
             $table->decimal('cantidad',10,2);
             $table->string('unidad_medida');
             $table->timestamps();

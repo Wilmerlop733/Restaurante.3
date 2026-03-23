@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Eliminar Ingrediente</title>
+  <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+    }
+  </script>
   <link rel="icon" href="/restaurante.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -12,32 +17,29 @@
   <div class="container mt-4">
     <h1>¿Desea eliminar este registro?</h1>
 
-    <form action="/ingredientes/{{$ingredienteE->id}}" method="POST">
+    <form action="/ingrediente/{{$dIngredienteE->id}}" method="POST">
       @csrf
       @method('DELETE')
 
       <div class="mb-3">
         <label for="id" class="form-label">Id</label>
-        <input type="text" class="form-control" name="id" id="id" value="{{$ingredienteE->id}}" readonly>
+        <input type="text" class="form-control" name="id" id="id" value="{{$dIngredienteE->id}}" readonly>
       </div>
 
-      <div class="mb-3">
-        <label for="idingredientes" class="form-label">IdIngredientes</label>
-        <input type="text" class="form-control" name="idingredientes" id="idingredientes" value="{{$ingredienteE->idingredientes}}" readonly>
-      </div>
+
 
       <div class="mb-3">
         <label for="nombreingre" class="form-label">Nombre</label>
-        <input type="text" class="form-control" name="nombreingre" id="nombreingre" value="{{$ingredienteE->nombreingre}}" readonly>
+        <input type="text" class="form-control" name="nombreingre" id="nombreingre" value="{{$dIngredienteE->nombreingre}}" readonly>
       </div>
 
       <div class="mb-3">
         <label for="inventario" class="form-label">Inventario</label>
-        <input type="text" class="form-control" name="inventario" id="inventario" value="{{$ingredienteE->inventario}}" readonly>
+        <input type="text" class="form-control" name="inventario" id="inventario" value="{{$dIngredienteE->inventario}}" readonly>
       </div>
 
       <button type="submit" class="btn btn-danger">Eliminar Ingrediente</button>
-      <a href="/ingredientes" class="btn btn-secondary">Volver</a>
+      <a href="#" onclick="history.back()" class="btn btn-secondary">Volver</a>
 
     </form>
   </div>

@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crear Categoria</title>
+  <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+    }
+  </script>
   <link rel="icon" href="/restaurante.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -12,13 +17,18 @@
   <div class="container mt-4">
     <h2>Agregar Nueva Categoria</h2>
 
-    <form action="/categorias" method="POST">
-      @csrf
-
-      <div class="mb-3">
-        <label for="idcategoria" class="form-label">IdCategoria</label>
-        <input type="text" class="form-control" name="idcategoria" id="idcategoria" required>
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
       </div>
+    @endif
+
+    <form action="/categoria" method="POST">
+      @csrf
 
       <div class="mb-3">
         <label for="nombrecat" class="form-label">Nombre</label>
@@ -36,7 +46,7 @@
       </div>
 
       <button type="submit" class="btn btn-primary">Guardar</button>
-      <a href="/categorias" class="btn btn-secondary">Volver</a>
+      <a href="#" onclick="history.back()" class="btn btn-secondary">Volver</a>
     </form>
   </div>
 

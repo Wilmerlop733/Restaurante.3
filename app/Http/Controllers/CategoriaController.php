@@ -7,86 +7,72 @@ use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $categorias = Categoria::all();
-        return view('Categorias.index')->with('resultado', $categorias);
+        $listaCategorias = Categoria::all();
+        $datosParaLaVista = [
+            'dCategorias' => $listaCategorias
+        ];
+
+        return view('Categorias.index', $datosParaLaVista);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
         return view('Categorias.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-        $categoria = new Categoria();
-        $categoria->idcategoria = $request->get('idcategoria');
-        $categoria->nombrecat = $request->get('nombrecat');
-        $categoria->descripcioncat = $request->get('descripcioncat');
-        $categoria->encargadocat = $request->get('encargadocat');
-        $categoria->save();
+        $request->validate([
+            'nombrecat' => 'required|string|max:100',
+            'descripcioncat' => 'required|string|max:255',
+            'encargadocat' => 'required|string|max:100',
+        ]);
 
-        return redirect('/categorias');
+        $nuevaCategoria = new Categoria();
+        $nuevaCategoria->nombrecat = $request->nombrecat;
+        $nuevaCategoria->descripcioncat = $request->descripcioncat;
+        $nuevaCategoria->encargadocat = $request->encargadocat;
+        $nuevaCategoria->save();
+
+        return redirect('/categoria');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
-        $categoria = Categoria::find($id);
-        return view('Categorias.delete')->with('categoriaE', $categoria);
+        $categoriaEncontrada = Categoria::find($id);
+        return view('Categorias.delete')->with('dCategoriaE', $categoriaEncontrada);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
-        $categoria = Categoria::find($id);
-
-        return view('Categorias.edit')->with('categoriaE', $categoria);
+        $categoriaAEditar = Categoria::find($id);
+        return view('Categorias.edit')->with('dCategoriaE', $categoriaAEditar);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
-        $categoria = Categoria::find($id);
-        $categoria->idcategoria = $request->get('idcategoria');
-        $categoria->nombrecat = $request->get('nombrecat');
-        $categoria->descripcioncat = $request->get('descripcioncat');
-        $categoria->encargadocat = $request->get('encargadocat');
-        $categoria->save();
+        $request->validate([
+            'nombrecat' => 'required|string|max:100',
+            'descripcioncat' => 'required|string|max:255',
+            'encargadocat' => 'required|string|max:100',
+        ]);
 
-        return redirect('/categorias');
+        $categoriaExistente = Categoria::find($id);
+        $categoriaExistente->nombrecat = $request->nombrecat;
+        $categoriaExistente->descripcioncat = $request->descripcioncat;
+        $categoriaExistente->encargadocat = $request->encargadocat;
+        $categoriaExistente->save();
+
+        return redirect('/categoria');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
-        $eliminado = Categoria::find($id);
-        $eliminado->delete();
+        $categoriaParaBorrar = Categoria::find($id);
+        $categoriaParaBorrar->delete();
 
-        return redirect('/categorias');
+        return redirect('/categoria');
     }
 }

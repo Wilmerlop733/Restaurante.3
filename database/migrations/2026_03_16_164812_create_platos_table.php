@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('platos', function (Blueprint $table) {
             $table->id();
-             $table->integer('idplato');
+            $table->foreignId('idcategoria');
             $table->string('nombreplato');
             $table->string('descripcionplato');
             $table->string('foto');
