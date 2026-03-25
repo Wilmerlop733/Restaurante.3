@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="/css/theme.css">
   <script>
-
     if (localStorage.getItem('theme') === 'dark') {
       document.documentElement.setAttribute('data-bs-theme', 'dark');
     }
@@ -46,19 +45,24 @@
     <h1 class="mb-4">Menú principal</h1>
 
     <div class="row justify-content-center mb-4">
-      <div class="col-md-4 mb-2">
+      <div class="col-md-3 mb-2">
         <a href="/categoria" class="btn btn-outline-primary w-100 py-3 shadow-sm">
           <i class="bi bi-tags"></i><br>Categorías
         </a>
       </div>
-      <div class="col-md-4 mb-2">
+      <div class="col-md-3 mb-2">
         <a href="/plato" class="btn btn-outline-warning w-100 py-3 shadow-sm">
           <i class="bi bi-egg-fried"></i><br>Platos
         </a>
       </div>
-      <div class="col-md-4 mb-2">
+      <div class="col-md-3 mb-2">
         <a href="/ingrediente" class="btn btn-outline-success w-100 py-3 shadow-sm">
           <i class="bi bi-egg"></i><br>Ingredientes
+        </a>
+      </div>
+      <div class="col-md-3 mb-2">
+        <a href="/clientes/pedidos" class="btn btn-outline-info w-100 py-3 shadow-sm">
+          <i class="bi bi-person-bounding-box"></i><br>Clientes
         </a>
       </div>
     </div>

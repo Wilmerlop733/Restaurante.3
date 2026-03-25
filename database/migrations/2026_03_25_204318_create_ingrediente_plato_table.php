@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-    Schema::create('ingredientes', function (Blueprint $table) {
+        Schema::create('ingrediente_plato', function (Blueprint $table) {
         $table->id();
-        $table->string('nombreingre');
-        // Decimal para que Laravel pueda restar (40.00 - 2.00)
-        $table->decimal('inventario', 10, 2)->default(0); 
-        // Columna nueva para que no pierdas el "kg" o "L"
-        $table->string('unidad_medida')->default('unidades'); 
+        $table->foreignId('plato_id')->constrained('platos')->onDelete('cascade');
+        $table->foreignId('ingrediente_id')->constrained('ingredientes')->onDelete('cascade');
+        $table->decimal('cantidad_usada', 8, 2); 
         $table->timestamps();
     });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ingredientes');
+        Schema::dropIfExists('ingrediente_plato');
     }
 };

@@ -19,20 +19,21 @@ class IngredienteController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nombreingre' => 'required|string|max:100',
-            'cantidad' => 'required|numeric|min:0',
-            'unidad_medida' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'nombreingre' => 'required|string|max:100',
+        'cantidad' => 'required|numeric|min:0',
+        'unidad_medida' => 'required|string',
+    ]);
 
-        $nuevoIngrediente = new Ingrediente();
-        $nuevoIngrediente->nombreingre = $request->nombreingre;
-        $nuevoIngrediente->inventario = $request->cantidad . " " . $request->unidad_medida;
-        $nuevoIngrediente->save();
+    $nuevoIngrediente = new Ingrediente();
+    $nuevoIngrediente->nombreingre = $request->nombreingre;
+    $nuevoIngrediente->inventario = $request->cantidad; // Solo el número
+    $nuevoIngrediente->unidad_medida = $request->unidad_medida; // La unidad (kg, L)
+    $nuevoIngrediente->save();
 
-        return redirect('/ingrediente');
-    }
+    return redirect('/ingrediente')->with('success', 'Ingrediente creado con éxito.');
+}
 
     public function show(string $id)
     {
@@ -59,7 +60,7 @@ class IngredienteController extends Controller
         $ingredienteExistente->inventario = $request->cantidad . " " . $request->unidad_medida;
         $ingredienteExistente->save();
 
-        return redirect('/ingrediente');
+        return redirect('/ingrediente')->with('success', 'Ingrediente actualizado.');
     }
 
     public function destroy(string $id)
@@ -67,6 +68,16 @@ class IngredienteController extends Controller
         $ingredienteParaBorrar = Ingrediente::find($id);
         $ingredienteParaBorrar->delete();
 
-        return redirect('/ingrediente');
+        return redirect('/ingrediente')->with('success', 'Ingrediente eliminado.');
     }
+
+    // --- SECCIÓN DE ABASTECIMIENTO (AF) ---
+    public function agregarStock(Request $request, $id)
+{
+    $request->validate(['cantidad_nueva' => 'required|numeric|min:0.01']);
+    $ingrediente = Ingrediente::findOrFail($id);
+    $ingrediente->increment('inventario', $request->cantidad_nueva);
+
+    return back()->with('success', "¡Stock actualizado!");
+}
 }

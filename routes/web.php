@@ -29,4 +29,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/plato/filtro/{id}', [PlatoController::class, 'verplatos']);
     Route::get('/receta/filtro/{id}', [RecetaController::class, 'verreceta']);
+
+    Route::get('/clientes/pedidos', [PlatoController::class, 'vistaClientes'])->name('clientes.pedidos');
+    Route::post('/ordenar-plato', [PlatoController::class, 'ordenarPlato'])->name('plato.ordenar');
+
+    // AF (Stock manual)
+    Route::patch('/ingredientes/{id}/agregar-stock', [IngredienteController::class, 'agregarStock'])->name('ingredientes.agregarStock');
 });

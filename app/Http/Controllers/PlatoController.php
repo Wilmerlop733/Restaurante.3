@@ -4,10 +4,41 @@ namespace App\Http\Controllers;
 
 use App\Models\Plato;
 use App\Models\Categoria;
+use App\Models\Ingrediente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PlatoController extends Controller
 {
+    public function vistaClientes()
+    {
+        $platos = Plato::all();
+        return view('Clientes.index')->with('dPlatos', $platos);
+    }
+
+    public function ordenarPlato(Request $request)
+{
+    $plato = Plato::with('ingredientes')->findOrFail($request->idplato);
+
+    try {
+        DB::beginTransaction();
+
+        foreach ($plato->ingredientes as $ingrediente) {
+            $cantidadUsada = $ingrediente->pivot->cantidad_usada;
+            if ($ingrediente->inventario < $cantidadUsada) {
+                throw new \Exception("Stock insuficiente de: {$ingrediente->nombreingre}");
+            }
+            $ingrediente->decrement('inventario', $cantidadUsada);
+        }
+        DB::commit();
+        return back()->with('success', '¡Pedido realizado y stock actualizado!');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', $e->getMessage());
+    }
+}
+
     public function verplatos(string $id)
     {
         $categoria = Categoria::find($id);
@@ -62,7 +93,6 @@ class PlatoController extends Controller
         }
 
         $nuevoPlato->save();
-
         return redirect('/plato');
     }
 
@@ -111,7 +141,6 @@ class PlatoController extends Controller
         }
 
         $platoExistente->save();
-
         return redirect('/plato');
     }
 
@@ -119,7 +148,6 @@ class PlatoController extends Controller
     {
         $platoParaBorrar = Plato::find($id);
         $platoParaBorrar->delete();
-
         return redirect('/plato');
     }
 }
