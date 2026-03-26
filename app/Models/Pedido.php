@@ -4,12 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Receta extends Model
+class Pedido extends Model
 {
-    public function ingrediente()
-    {
-        return $this->belongsTo(Ingrediente::class, 'idingredientes');
-    }
+    protected $fillable = ['idplato', 'nombre_cliente', 'precio_unitario', 'cantidad', 'total'];
 
     public function plato()
     {

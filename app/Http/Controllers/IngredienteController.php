@@ -19,21 +19,21 @@ class IngredienteController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'nombreingre' => 'required|string|max:100',
-        'cantidad' => 'required|numeric|min:0',
-        'unidad_medida' => 'required|string',
-    ]);
+    {
+        $request->validate([
+            'nombreingre' => 'required|string|max:100',
+            'cantidad' => 'required|numeric|min:0',
+            'unidad_medida' => 'required|string',
+        ]);
 
-    $nuevoIngrediente = new Ingrediente();
-    $nuevoIngrediente->nombreingre = $request->nombreingre;
-    $nuevoIngrediente->inventario = $request->cantidad; // Solo el número
-    $nuevoIngrediente->unidad_medida = $request->unidad_medida; // La unidad (kg, L)
-    $nuevoIngrediente->save();
+        $nuevoIngrediente = new Ingrediente();
+        $nuevoIngrediente->nombreingre = $request->nombreingre;
+        $nuevoIngrediente->inventario = $request->cantidad;
+        $nuevoIngrediente->unidad_medida = $request->unidad_medida;
+        $nuevoIngrediente->save();
 
-    return redirect('/ingrediente')->with('success', 'Ingrediente creado con éxito.');
-}
+        return redirect('/ingrediente')->with('success', 'Ingrediente creado con éxito.');
+    }
 
     public function show(string $id)
     {
@@ -57,7 +57,8 @@ class IngredienteController extends Controller
 
         $ingredienteExistente = Ingrediente::find($id);
         $ingredienteExistente->nombreingre = $request->nombreingre;
-        $ingredienteExistente->inventario = $request->cantidad . " " . $request->unidad_medida;
+        $ingredienteExistente->inventario = $request->cantidad;
+        $ingredienteExistente->unidad_medida = $request->unidad_medida;
         $ingredienteExistente->save();
 
         return redirect('/ingrediente')->with('success', 'Ingrediente actualizado.');
@@ -71,7 +72,6 @@ class IngredienteController extends Controller
         return redirect('/ingrediente')->with('success', 'Ingrediente eliminado.');
     }
 
-    // --- SECCIÓN DE ABASTECIMIENTO (AF) ---
     public function agregarStock(Request $request, $id)
 {
     $request->validate(['cantidad_nueva' => 'required|numeric|min:0.01']);

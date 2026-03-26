@@ -6,8 +6,23 @@
   <title>Iniciar Sesión / Registro</title>
   <link rel="icon" href="/restaurante.png">
   <link rel="stylesheet" href="{{ asset('css/login-style.css') }}">
+  <script>
+
+    if (typeof Turbo !== 'undefined') {
+      Turbo.session.drive = false;
+    }
+    
+    localStorage.removeItem('theme');
+    localStorage.clear();
+    document.documentElement.setAttribute('data-bs-theme', 'light');
+    
+    if (sessionStorage.getItem('force_clear')) {
+      sessionStorage.removeItem('force_clear');
+      location.reload();
+    }
+  </script>
 </head>
-<body>
+<body id="auth-page" data-turbo="false">
 
   <div class="container {{ request()->is('registro') ? 'right-panel-active' : '' }}" id="container">
     <div class="form-container sign-up-container">
@@ -81,6 +96,25 @@
   </div>
 
   <canvas id="canvas1"></canvas>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+      if (typeof Turbo !== 'undefined') {
+        Turbo.session.drive = false;
+      }
+      
+      localStorage.removeItem('theme');
+      localStorage.clear();
+      
+      document.documentElement.setAttribute('data-bs-theme', 'light');
+      
+      @if(session('force_clear'))
+        sessionStorage.setItem('force_clear', 'true');
+        window.location.href = window.location.href;
+      @endif
+    });
+  </script>
 
   <script src="{{ asset('js/auth.js') }}"></script>
 </body>

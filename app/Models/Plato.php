@@ -8,7 +8,7 @@ class Plato extends Model
 {
     public function ingredientes()
     {
-        return $this->belongsToMany(Ingrediente::class, 'ingrediente_plato', 'plato_id', 'ingrediente_id')
-                    ->withPivot('cantidad_usada'); // Vital para que el controlador vea el número a restar
+        return $this->belongsToMany(Ingrediente::class, 'recetas', 'idplato', 'idingredientes')
+                    ->withPivot('cantidad'); 
     }
 }

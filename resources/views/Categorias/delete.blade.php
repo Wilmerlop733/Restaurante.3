@@ -7,6 +7,8 @@
   <script>
     if (localStorage.getItem('theme') === 'dark') {
       document.documentElement.setAttribute('data-bs-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-bs-theme', 'light');
     }
   </script>
   <link rel="icon" href="/restaurante.png">
@@ -22,13 +24,8 @@
       @method('DELETE')
 
       <div class="mb-3">
-        <label for="id" class="form-label">Id</label>
+        <label for="id" class="form-label">IdCategoria</label>
         <input type="text" class="form-control" name="id" id="id" value="{{$dCategoriaE->id}}" readonly>
-      </div>
-
-      <div class="mb-3">
-        <label for="idcategoria" class="form-label">IdCategoria</label>
-        <input type="text" class="form-control" name="idcategoria" id="idcategoria" value="{{$dCategoriaE->idcategoria}}" readonly>
       </div>
 
       <div class="mb-3">

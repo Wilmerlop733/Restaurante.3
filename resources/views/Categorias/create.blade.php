@@ -7,6 +7,8 @@
   <script>
     if (localStorage.getItem('theme') === 'dark') {
       document.documentElement.setAttribute('data-bs-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-bs-theme', 'light');
     }
   </script>
   <link rel="icon" href="/restaurante.png">

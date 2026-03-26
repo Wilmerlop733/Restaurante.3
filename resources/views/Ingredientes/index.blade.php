@@ -7,12 +7,15 @@
     <script>
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.setAttribute('data-bs-theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-bs-theme', 'light');
         }
     </script>
+    <script src="https://unpkg.com/@hotwired/turbo@7.1.0/dist/turbo.es2017-umd.js"></script>
     <link rel="icon" href="/restaurante.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/theme.css?v=1.1">
 </head>
 
 <body>
@@ -35,7 +38,7 @@
         <table class="table">
             <thead class="table-light">
                 <tr>
-                    <th>Id</th>
+                    <th>IdIngrediente</th>
                     <th>Nombre</th>
                     <th>Inventario</th>
                     <th class="text-center">Surtir</th> <th>Editar</th>
@@ -48,7 +51,7 @@
                 <tr>
                     <td>{{ $ingrediente->id }}</td>
                     <td>{{ $ingrediente->nombreingre }}</td>
-                    <td>{{ $ingrediente->inventario }}</td>
+                    <td>{{ $ingrediente->inventario }} {{ $ingrediente->unidad_medida }}</td>
 
                     <td class="text-center">
                         <button type="button" class="btn btn-info btn-sm text-white" data-bs-toggle="modal" data-bs-target="#modalStock{{ $ingrediente->id }}">
@@ -76,7 +79,21 @@
                                 @csrf
                                 @method('PATCH')
                                 <div class="modal-body">
-                                    <p>Inventario actual: <strong>{{ $ingrediente->inventario }}</strong></p>
+                                    <p>Inventario actual: 
+                                        @if($ingrediente->inventario < 0)
+                                            <span class="badge bg-danger">
+                                                <i class="bi bi-exclamation-triangle-fill"></i> {{ $ingrediente->inventario }} {{ $ingrediente->unidad_medida }} (Negativo)
+                                            </span>
+                                        @else
+                                            <strong>{{ $ingrediente->inventario }} {{ $ingrediente->unidad_medida }}</strong>
+                                        @endif
+                                    </p>
+                                    
+                                    @if($ingrediente->inventario < 0)
+                                        <div class="alert alert-warning small py-1">
+                                            <i class="bi bi-info-circle"></i> Tu inventario es negativo. Te recomendamos surtir una cantidad mayor para normalizarlo o editar el ingrediente directamente.
+                                        </div>
+                                    @endif
                                     <div class="mb-3">
                                         <label for="cantidad_nueva" class="form-label">Cantidad a sumar:</label>
                                         <input type="number" step="0.01" name="cantidad_nueva" class="form-control" placeholder="Ej: 5.00" required autofocus>

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Plato;
 use App\Models\Categoria;
 use App\Models\Ingrediente;
+use App\Models\Pedido;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PlatoController extends Controller
 {
@@ -17,27 +19,45 @@ class PlatoController extends Controller
     }
 
     public function ordenarPlato(Request $request)
-{
-    $plato = Plato::with('ingredientes')->findOrFail($request->idplato);
+    {
 
-    try {
-        DB::beginTransaction();
+        $request->validate([
+            'idplato' => 'required|exists:platos,id',
+            'cantidad' => 'required|integer|min:1|max:100',
+        ]);
 
-        foreach ($plato->ingredientes as $ingrediente) {
-            $cantidadUsada = $ingrediente->pivot->cantidad_usada;
-            if ($ingrediente->inventario < $cantidadUsada) {
-                throw new \Exception("Stock insuficiente de: {$ingrediente->nombreingre}");
+        $plato = Plato::with('ingredientes')->findOrFail($request->idplato);
+        $cantidadPedida = $request->cantidad;
+
+        try {
+            DB::beginTransaction();
+
+            foreach ($plato->ingredientes as $ingrediente) {
+                $stockNecesario = $ingrediente->pivot->cantidad * $cantidadPedida;
+                
+                if ($ingrediente->inventario < $stockNecesario) {
+                    throw new \Exception("Stock insuficiente de '{$ingrediente->nombreingre}'. Necesitas {$stockNecesario} {$ingrediente->unidad_medida} y solo hay {$ingrediente->inventario}.");
+                }
+                
+                $ingrediente->decrement('inventario', $stockNecesario);
             }
-            $ingrediente->decrement('inventario', $cantidadUsada);
-        }
-        DB::commit();
-        return back()->with('success', '¡Pedido realizado y stock actualizado!');
 
-    } catch (\Exception $e) {
-        DB::rollBack();
-        return back()->with('error', $e->getMessage());
+            Pedido::create([
+                'idplato' => $plato->id,
+                'nombre_cliente' => Auth::user()->name,
+                'precio_unitario' => $plato->precio,
+                'cantidad' => $cantidadPedida,
+                'total' => $plato->precio * $cantidadPedida
+            ]);
+
+            DB::commit();
+            return back()->with('success', "¡Pedido de {$cantidadPedida} x {$plato->nombreplato} realizado con éxito!");
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', $e->getMessage());
+        }
     }
-}
 
     public function verplatos(string $id)
     {

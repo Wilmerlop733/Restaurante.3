@@ -7,8 +7,11 @@
   <script>
     if (localStorage.getItem('theme') === 'dark') {
       document.documentElement.setAttribute('data-bs-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-bs-theme', 'light');
     }
   </script>
+  <script src="https://unpkg.com/@hotwired/turbo@7.1.0/dist/turbo.es2017-umd.js"></script>
     <link rel="icon" href="/restaurante.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -47,10 +50,7 @@
           <tr>
             <td>{{$receta->id}}</td>
             <td>
-              @php
-                $ingrediente = $dIngredientes->firstWhere('id', $receta->idingredientes);
-              @endphp
-              {{ $ingrediente ? $ingrediente->nombreingre : 'N/A' }}
+              {{ $receta->ingrediente ? $receta->ingrediente->nombreingre : 'N/A (ID: ' . $receta->idingredientes . ')' }}
             </td>
             <td>{{$receta->cantidad}}</td>
             <td>{{$receta->unidad_medida}}</td>
@@ -60,7 +60,7 @@
             </td>
 
             <td>
-              <a href="/receta/{{$receta->id}}" class="btn btn-danger">Eliminar</a>
+              <a href="/receta/{{$receta->id}}" class="btn btn-danger">Quitar</a>
             </td>
           </tr>
           @endif

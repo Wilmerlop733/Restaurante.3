@@ -46,3 +46,9 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.menu-img {
+  width: 100% !important;
+  height: 400px !important;
+  object-fit: cover !important;
+}

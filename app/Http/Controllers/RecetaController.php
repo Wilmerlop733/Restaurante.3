@@ -12,22 +12,18 @@ class RecetaController extends Controller
     public function verreceta(string $id)
     {
         $plato = Plato::find($id);
-        $recetas = Receta::where('idplato', '=', $id)->get();
-        $ingredientes = Ingrediente::all();
+        $recetas = Receta::with('ingrediente')->where('idplato', '=', $id)->get();
         
         return view('Recetas.index')
             ->with('dRecetas', $recetas)
-            ->with('dInfoPlato', $plato)
-            ->with('dIngredientes', $ingredientes);
+            ->with('dInfoPlato', $plato);
     }
 
     public function index()
     {
-        $recetas = Receta::all();
-        $ingredientes = Ingrediente::all();
+        $recetas = Receta::with('ingrediente')->get();
         return view('Recetas.index')
-            ->with('dRecetas', $recetas)
-            ->with('dIngredientes', $ingredientes);
+            ->with('dRecetas', $recetas);
     }
 
     public function create()

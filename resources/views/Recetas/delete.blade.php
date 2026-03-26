@@ -43,7 +43,7 @@
         <input type="text" class="form-control" name="cantidad" id="cantidad" value="{{$dRecetaE->cantidad}} {{$dRecetaE->unidad_medida}}" readonly>
       </div>
 
-      <button type="submit" class="btn btn-danger">Eliminar Receta</button>
+      <button type="submit" class="btn btn-danger">Quitar Receta</button>
       <a href="#" onclick="history.back()" class="btn btn-secondary">Volver</a>
     </form>
   </div>

@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Restablecer Contraseña</title>
+  <title>Recuperar Contraseña</title>
+  <style>
+    body { background-color: #fff !important; color: #333 !important; }
+  </style>
   <link rel="icon" href="/restaurante.png">
   <link rel="stylesheet" href="{{ asset('css/login-style.css') }}">
 </head>
-<body>
+<body id="auth-page">
 
   <div class="container" id="container">
     

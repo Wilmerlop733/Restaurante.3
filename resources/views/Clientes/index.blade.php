@@ -9,14 +9,17 @@
     <script>
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.setAttribute('data-bs-theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-bs-theme', 'light');
         }
     </script>
+    <script src="https://unpkg.com/@hotwired/turbo@7.1.0/dist/turbo.es2017-umd.js"></script>
 </head>
 <body class="bg-body-tertiary">
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <a href="/" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Volver al Menú</a>
+        <a href="/" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Volver</a>
         <h1 class="text-center">Realizar Pedido</h1>
         <div></div>
     </div>
@@ -49,9 +52,17 @@
                     <form action="{{ route('plato.ordenar') }}" method="POST">
                         @csrf
                         <input type="hidden" name="idplato" value="{{ $plato->id }}">
+                        
+                        <div class="mb-3">
+                            <label for="cantidad_{{ $plato->id }}" class="form-label small fw-bold">Cantidad</label>
+                            <input type="number" name="cantidad" id="cantidad_{{ $plato->id }}" 
+                                   class="form-control form-control-sm text-center" 
+                                   value="1" min="1" max="100" required>
+                        </div>
+
                         <div class="d-grid">
                             <button type="submit" class="btn btn-outline-info fw-bold">
-                                <i class="bi bi-cart-plus"></i> SOLICITAR PLATO
+                                <i class="bi bi-cart-plus"></i> SOLICITAR PEDIDO
                             </button>
                         </div>
                     </form>

@@ -8,37 +8,47 @@
   <link rel="icon" href="/restaurante.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/theme.css?v=1.1">
   <script>
-    if (localStorage.getItem('theme') === 'dark') {
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
       document.documentElement.setAttribute('data-bs-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-bs-theme', 'light');
+
+      if (!savedTheme) {
+        localStorage.setItem('theme', 'light');
+      }
     }
   </script>
-  <style>
-    .menu-img {
-      width: 100%;
-      height: 400px;
-      object-fit: cover;
-    }
-  </style>
+  <script src="https://unpkg.com/@hotwired/turbo@7.1.0/dist/turbo.es2017-umd.js"></script>
 </head>
 
 <body class="bg-body-tertiary">
 
   <div class="container mt-5 text-center">
-    <div class="d-flex justify-content-end mb-3 align-items-center">
-      <span class="me-3 text-muted">Hola, <strong>{{ Auth::user()->name }}</strong>!</span>
-      <form action="{{ route('logout') }}" method="POST" class="d-inline">
-        @csrf
-        <button type="submit" class="btn btn-outline-danger btn-sm">Cerrar Sesión</button>
-      </form>
-      <div class="theme-switch-wrapper ms-4">
-        <i class="bi bi-moon-fill fs-5 me-2" style="color: #aaa;"></i>
-        <label class="theme-switch">
-          <input type="checkbox" id="themeCheckbox">
-          <div class="slider round"></div>
-        </label>
-        <i class="bi bi-sun-fill fs-5 ms-2" style="color: #aaa;"></i>
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 pb-3 border-bottom">
+      <div class="text-start">
+        <span class="text-muted fw-bold">Hola, <span class="text-primary">{{ Auth::user()->name }}</span>!</span>
+      </div>
+      
+      <div class="d-flex align-items-center gap-3">
+        <form action="{{ route('logout') }}" method="POST" class="m-0" data-turbo="false">
+          @csrf
+          <button type="submit" class="btn btn-outline-danger btn-sm px-3 fw-bold">
+            <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+          </button>
+        </form>
+        
+        <div class="theme-switch-wrapper">
+          <i class="bi bi-moon-fill small text-secondary"></i>
+          <label class="theme-switch mx-2">
+            <input type="checkbox" id="themeCheckbox">
+            <div class="slider round"></div>
+          </label>
+          <i class="bi bi-sun-fill small text-warning"></i>
+        </div>
       </div>
     </div>
 
@@ -69,16 +79,16 @@
 
     <div class="row mb-4">
       <div class="col-md-3">
-        <img src="/imag/jay-wennington-N_Y88TWmGwA-unsplash.jpg" class="img-fluid rounded shadow-sm menu-img" alt="Foto">
+        <img src="/imag/jay-wennington-N_Y88TWmGwA-unsplash.jpg" class="img-fluid rounded shadow-sm menu-img" style="height: 400px; object-fit: cover;" alt="Foto">
       </div>
       <div class="col-md-3">
-        <img src="/imag/tim-mossholder-FH3nWjvia-U-unsplash (1).jpg" class="img-fluid rounded shadow-sm menu-img" alt="Foto">
+        <img src="/imag/tim-mossholder-FH3nWjvia-U-unsplash (1).jpg" class="img-fluid rounded shadow-sm menu-img" style="height: 400px; object-fit: cover;" alt="Foto">
       </div>
       <div class="col-md-3">
-        <img src="/imag/sandra-seitamaa-OFJGlG3sKik-unsplash.jpg" class="img-fluid rounded shadow-sm menu-img" alt="Foto">
+        <img src="/imag/sandra-seitamaa-OFJGlG3sKik-unsplash.jpg" class="img-fluid rounded shadow-sm menu-img" style="height: 400px; object-fit: cover;" alt="Foto">
       </div>
       <div class="col-md-3">
-        <img src="/imag/kevin-charit-QusXD31z0G4-unsplash.jpg" class="img-fluid rounded shadow-sm menu-img" alt="Foto">
+        <img src="/imag/kevin-charit-QusXD31z0G4-unsplash.jpg" class="img-fluid rounded shadow-sm menu-img" style="height: 400px; object-fit: cover;" alt="Foto">
       </div>
     </div>
   </div>
@@ -86,23 +96,29 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    const themeCheckbox = document.getElementById('themeCheckbox');
-    const currentTheme = localStorage.getItem('theme');
-    
-    if (currentTheme === 'light') {
-      themeCheckbox.checked = true;
-    } else {
-      themeCheckbox.checked = false;
-    }
+    document.addEventListener('turbo:load', function() {
+      const themeCheckbox = document.getElementById('themeCheckbox');
+      if (!themeCheckbox) return;
 
-    themeCheckbox.addEventListener('change', function(e) {
-      if(e.target.checked) {
-        document.documentElement.setAttribute('data-bs-theme', 'light');
-        localStorage.setItem('theme', 'light');
-      } else {
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      
+      if (currentTheme === 'dark') {
+        themeCheckbox.checked = false;
         document.documentElement.setAttribute('data-bs-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-      }    
+      } else {
+        themeCheckbox.checked = true;
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+      }
+
+      themeCheckbox.addEventListener('change', function(e) {
+        if(e.target.checked) {
+          document.documentElement.setAttribute('data-bs-theme', 'light');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-bs-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
+        }    
+      });
     });
   </script>
 </body>
