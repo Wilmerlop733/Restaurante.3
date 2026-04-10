@@ -6,6 +6,11 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\IngredienteController;
 use App\Http\Controllers\PlatoController;
 use App\Http\Controllers\RecetaController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LocaleController;
+
+Route::get('/lang/{locale}', [LocaleController::class, 'setLocale'])->name('lang.switch');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -20,6 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('menu');
     })->name('home');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('role:Admin');
+    Route::get('/api/dashboard-data', [DashboardController::class, 'getData'])->middleware('role:Admin');
+    Route::resource('/usuarios', UserController::class)->names('usuarios')->middleware('role:Admin');
 
     Route::resource('/categoria', CategoriaController::class);
     Route::resource('/ingrediente', IngredienteController::class);

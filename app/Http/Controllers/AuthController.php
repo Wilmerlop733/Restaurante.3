@@ -39,8 +39,14 @@ class AuthController extends Controller
 
 
         $loginCorrecto = Auth::attempt($credenciales, $recordarSesion);
-
+        
         if ($loginCorrecto == true) {
+            if (!Auth::user()->is_active) {
+                Auth::logout();
+                return redirect('/login')->withErrors([
+                    'name' => 'Tu cuenta ha sido deshabilitada. Contacta al administrador.',
+                ])->withInput();
+            }
             return redirect('/');
         } else {
             
