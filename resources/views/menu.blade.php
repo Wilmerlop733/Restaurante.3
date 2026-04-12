@@ -43,7 +43,7 @@
       <div class="card-body p-0">
         <div class="row g-0">
           <div class="col-md-6">
-            <a href="/dashboard" class="d-flex align-items-center justify-content-center py-4 text-decoration-none transition-all admin-link" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+            <a href="/dashboard" class="d-flex align-items-center justify-content-center py-4 text-decoration-none transition-all admin-link" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);">
               <div class="text-white text-center">
                 <i class="bi bi-speedometer2 fs-2 mb-1 d-block"></i>
                 <span class="fw-bold text-uppercase small" style="letter-spacing: 1px;">{{ __('Panel de Control') }}</span>
@@ -51,7 +51,7 @@
             </a>
           </div>
           <div class="col-md-6 border-start border-white border-opacity-10">
-            <a href="{{ route('usuarios.index') }}" class="d-flex align-items-center justify-content-center py-4 text-decoration-none transition-all admin-link" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+            <a href="{{ route('usuarios.index') }}" class="d-flex align-items-center justify-content-center py-4 text-decoration-none transition-all admin-link" style="background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);">
               <div class="text-white text-center">
                 <i class="bi bi-people-fill fs-2 mb-1 d-block"></i>
                 <span class="fw-bold text-uppercase small" style="letter-spacing: 1px;">{{ __('Gestión de Usuarios') }}</span>

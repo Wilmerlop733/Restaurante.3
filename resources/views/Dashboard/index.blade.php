@@ -30,7 +30,9 @@
         <div class="d-flex align-items-center gap-3">
             <span class="text-muted small"><span class="status-dot me-1"></span> {{ __('Actualizando en tiempo real') }}</span>
             <a href="{{ route('usuarios.index') }}" class="btn btn-primary btn-sm shadow-sm"><i class="bi bi-people-fill"></i> {{ __('Gestionar Usuarios') }}</a>
-            <a href="/" class="btn btn-outline-secondary btn-sm shadow-sm">{{ __('Volver al Menú') }}</a>
+            <a href="/" class="btn btn-outline-secondary btn-sm shadow-sm">
+                <i class="bi bi-arrow-left"></i> {{ __('Volver al Menú') }}
+            </a>
         </div>
     </div>
 

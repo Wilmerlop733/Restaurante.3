@@ -30,7 +30,9 @@
       </div>
       <div class="mb-3">
         @can('crear categorias')
-        <a href="/categoria/create" class="btn btn-primary shadow-sm">{{ __('Agregar Nueva Categoria') }}</a>
+        <a href="/categoria/create" class="btn btn-primary shadow-sm">
+          <i class="bi bi-plus-circle"></i> {{ __('Agregar Categoria') }}
+        </a>
         @endcan
       </div>
 
@@ -65,13 +67,17 @@
             
             @can('editar categorias')
             <td>
-              <a href="/categoria/{{$categoria->id}}/edit" class="btn btn-success shadow-sm">{{ __('Editar') }}</a>
+              <a href="/categoria/{{$categoria->id}}/edit" class="btn btn-success shadow-sm">
+                <i class="bi bi-pencil"></i> {{ __('Editar') }}
+              </a>
             </td>
             @endcan
 
             @can('eliminar categorias')
             <td>
-              <a href="/categoria/{{$categoria->id}}" class="btn btn-danger shadow-sm">{{ __('Eliminar') }}</a>
+              <a href="/categoria/{{$categoria->id}}" class="btn btn-danger shadow-sm">
+                <i class="bi bi-trash"></i> {{ __('Eliminar') }}
+              </a>
             </td>
             @endcan
           </tr>
@@ -80,7 +86,6 @@
       </table>
     </div>
 
-    <!-- Modal de Ayuda -->
     <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg">

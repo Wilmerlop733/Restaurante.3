@@ -24,7 +24,9 @@
                 <h1 class="mb-0"><i class="bi bi-people-fill text-primary"></i> {{ __('Gestión de Usuarios') }}</h1>
             </div>
             <div class="d-flex align-items-center gap-3">
-                <a href="{{ route('usuarios.create') }}" class="btn btn-primary shadow-sm">{{ __('Crear Usuario Nuevo') }}</a>
+                <a href="{{ route('usuarios.create') }}" class="btn btn-primary shadow-sm">
+                    <i class="bi bi-plus-circle"></i> {{ __('Crear Usuario Nuevo') }}
+                </a>
             </div>
         </div>
 

@@ -73,11 +73,14 @@ class IngredienteController extends Controller
     }
 
     public function agregarStock(Request $request, $id)
-{
-    $request->validate(['cantidad_nueva' => 'required|numeric|min:0.01']);
-    $ingrediente = Ingrediente::findOrFail($id);
-    $ingrediente->increment('inventario', $request->cantidad_nueva);
+    {
+        $request->validate([
+            'cantidad_nueva' => 'required|numeric|min:0.01'
+        ]);
 
-    return back()->with('success', "¡Stock actualizado!");
-}
+        $ingrediente = Ingrediente::findOrFail($id);
+        $ingrediente->increment('inventario', $request->cantidad_nueva);
+
+        return redirect()->back()->with('success', "¡Inventario de {$ingrediente->nombreingre} actualizado con éxito!");
+    }
 }

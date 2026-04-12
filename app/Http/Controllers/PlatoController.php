@@ -113,7 +113,12 @@ class PlatoController extends Controller
         }
 
         $nuevoPlato->save();
-        return redirect('/plato');
+        
+        if ($request->idcategoria) {
+            return redirect('/plato/filtro/' . $request->idcategoria)->with('success', 'Plato creado con éxito.');
+        }
+
+        return redirect('/plato')->with('success', 'Plato creado con éxito.');
     }
 
     public function show(string $id)

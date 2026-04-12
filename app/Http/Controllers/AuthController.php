@@ -6,60 +6,60 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+
 
 class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('Inicio.login');
+        $roles = Role::all();
+        return view('Inicio.login', compact('roles'));
     }
+
 
     public function login(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'login' => 'required',
             'password' => 'required',
         ], [
-            'name.required' => 'El nombre de usuario es obligatorio.',
+            'login.required' => 'El usuario o correo es obligatorio.',
             'password.required' => 'La contraseña es obligatoria.',
         ]);
 
-        $nombreUsuario = $request->name;
-        $contrasena = $request->password;
-        
-        $recordarSesion = false;
-        if ($request->has('remember')) {
-            $recordarSesion = true;
-        }
+        $loginValue = $request->login;
+        $loginType = filter_var($loginValue, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+
+        $recordarSesion = $request->has('remember');
 
         $credenciales = [
-            'name' => $nombreUsuario,
-            'password' => $contrasena
+            $loginType => $loginValue,
+            'password' => $request->password
         ];
 
-
-        $loginCorrecto = Auth::attempt($credenciales, $recordarSesion);
-        
-        if ($loginCorrecto == true) {
+        if (Auth::attempt($credenciales, $recordarSesion)) {
             if (!Auth::user()->is_active) {
                 Auth::logout();
                 return redirect('/login')->withErrors([
-                    'name' => 'Tu cuenta ha sido deshabilitada. Contacta al administrador.',
+                    'login' => 'Tu cuenta ha sido deshabilitada. Contacta al administrador.',
                 ])->withInput();
             }
             return redirect('/');
-        } else {
-            
-            return redirect('/login')->withErrors([
-                'name' => 'El nombre de usuario o la contraseña son incorrectos.',
-            ])->withInput();
         }
+        
+        return redirect('/login')->withErrors([
+            'login' => 'El nombre de usuario/correo o la contraseña son incorrectos.',
+        ])->withInput();
     }
+
 
     public function showRegistrationForm()
     {
-        return view('Inicio.registro');
+        $roles = Role::all();
+        return view('Inicio.registro', compact('roles'));
     }
+
 
     public function register(Request $request)
     {
@@ -67,6 +67,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'rol' => 'required|exists:roles,name',
         ], [
             'name.required' => 'El nombre de usuario es obligatorio.',
             'name.unique' => 'Este nombre de usuario ya está en uso.',
@@ -76,7 +77,11 @@ class AuthController extends Controller
             'password.required' => 'La contraseña es obligatoria.',
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
             'password.confirmed' => 'Las contraseñas no coinciden.',
+            'rol.required' => 'El rol es obligatorio.',
+            'rol.exists' => 'El rol seleccionado no es válido.',
         ]);
+
+
 
         $nuevoUsuario = new User();
         $nuevoUsuario->name = $request->name;
@@ -87,7 +92,12 @@ class AuthController extends Controller
         
         $nuevoUsuario->save();
 
+        if ($request->has('rol')) {
+            $nuevoUsuario->assignRole($request->rol);
+        }
+
         Auth::login($nuevoUsuario);
+
 
         return redirect('/');
     }

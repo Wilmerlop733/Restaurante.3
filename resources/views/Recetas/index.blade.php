@@ -36,9 +36,17 @@
         </button>
       </div>
 
-      <div class="mb-3">
-        <a href="/receta/create{{ isset($dInfoPlato) ? '?idplato=' . $dInfoPlato->id : '' }}" class="btn btn-primary shadow-sm">{{ __('Crear Receta') }}</a>
+      <div class="mb-3 d-flex gap-2">
+        @if(isset($dInfoPlato))
+          <a href="/plato/filtro/{{ $dInfoPlato->idcategoria }}" class="btn btn-outline-primary shadow-sm">
+            <i class="bi bi-arrow-left"></i> {{ __('Volver a Platos') }}
+          </a>
+        @endif
+        <a href="/receta/create{{ isset($dInfoPlato) ? '?idplato=' . $dInfoPlato->id : '' }}" class="btn btn-primary shadow-sm">
+          <i class="bi bi-plus-circle"></i> {{ __('Crear Receta') }}
+        </a>
       </div>
+
 
       <table class="table">
         <thead class="table-light">
@@ -64,11 +72,15 @@
             <td>{{$receta->unidad_medida}}</td>
 
             <td>
-              <a href="/receta/{{$receta->id}}/edit" class="btn btn-success shadow-sm">{{ __('Editar') }}</a>
+              <a href="/receta/{{$receta->id}}/edit" class="btn btn-success shadow-sm">
+                <i class="bi bi-pencil"></i> {{ __('Editar') }}
+              </a>
             </td>
 
             <td>
-              <a href="/receta/{{$receta->id}}" class="btn btn-danger shadow-sm">{{ __('Quitar') }}</a>
+              <a href="/receta/{{$receta->id}}" class="btn btn-danger shadow-sm">
+                <i class="bi bi-trash"></i> {{ __('Quitar') }}
+              </a>
             </td>
           </tr>
           @endif

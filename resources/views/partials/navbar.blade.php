@@ -1,11 +1,12 @@
 <div class="global-navbar-container" style="position: relative; z-index: 1030;">
   <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 pb-3 border-bottom">
     <div class="d-flex align-items-center">
-      @if(!Route::is('home'))
+      @if(!Route::is('home') && !isset($dInfoCategoria) && !isset($dInfoPlato))
         <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-sm px-3 rounded-pill me-3 shadow-sm fw-bold">
           <i class="bi bi-arrow-left"></i> {{ __('Volver al Menú') }}
         </a>
       @endif
+
       <div class="text-start">
         <span class="text-muted fw-bold">{{ __('Hola') }}, <span class="text-primary">{{ Auth::user()->name }}</span>!</span>
       </div>

@@ -36,11 +36,19 @@
         </button>
       </div>
 
-      <div class="mb-3">
+      <div class="mb-3 d-flex gap-2">
+        @if(isset($dInfoCategoria))
+          <a href="/categoria" class="btn btn-outline-primary shadow-sm">
+            <i class="bi bi-arrow-left"></i> {{ __('Volver a Categorías') }}
+          </a>
+        @endif
         @can('crear platos')
-          <a href="/plato/create{{ isset($dInfoCategoria) ? '?idcategoria=' . $dInfoCategoria->id : '' }}" class="btn btn-primary shadow-sm">{{ __('Crear Plato') }}</a>
+          <a href="/plato/create{{ isset($dInfoCategoria) ? '?idcategoria=' . $dInfoCategoria->id : '' }}" class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-circle"></i> {{ __('Crear Plato') }}
+          </a>
         @endcan
       </div>
+
 
       <table class="table">
         <thead class="table-light">
@@ -84,13 +92,17 @@
 
             @can('editar platos')
             <td>
-              <a href="/plato/{{$plato->id}}/edit" class="btn btn-success shadow-sm">{{ __('Editar') }}</a>
+              <a href="/plato/{{$plato->id}}/edit" class="btn btn-success shadow-sm">
+                <i class="bi bi-pencil"></i> {{ __('Editar') }}
+              </a>
             </td>
             @endcan
 
             @can('eliminar platos')
             <td>
-              <a href="/plato/{{$plato->id}}" class="btn btn-danger shadow-sm">{{ __('Eliminar') }}</a>
+              <a href="/plato/{{$plato->id}}" class="btn btn-danger shadow-sm">
+                <i class="bi bi-trash"></i> {{ __('Eliminar') }}
+              </a>
             </td>
             @endcan
           </tr>

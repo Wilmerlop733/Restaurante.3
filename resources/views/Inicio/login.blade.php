@@ -7,15 +7,12 @@
   <link rel="icon" href="/restaurante.png">
   <link rel="stylesheet" href="{{ asset('css/login-style.css') }}">
   <script>
-
     if (typeof Turbo !== 'undefined') {
       Turbo.session.drive = false;
     }
-    
     localStorage.removeItem('theme');
     localStorage.clear();
     document.documentElement.setAttribute('data-bs-theme', 'light');
-    
     if (sessionStorage.getItem('force_clear')) {
       sessionStorage.removeItem('force_clear');
       location.reload();
@@ -23,13 +20,12 @@
   </script>
 </head>
 <body id="auth-page" data-turbo="false">
-
-  <div class="container {{ request()->is('registro') ? 'right-panel-active' : '' }}" id="container">
+  <div class="container {{ (request()->is('registro') || $errors->hasAny(['email', 'password_confirmation', 'rol'])) ? 'right-panel-active' : '' }}" id="container">
     <div class="form-container sign-up-container">
       <form action="/registro" method="POST">
         @csrf
         <h1>{{ __('Crear Cuenta') }}</h1>
-        @if ($errors->any() && request()->is('registro'))
+        @if ($errors->hasAny(['name', 'email', 'password', 'rol']) && (request()->is('registro') || $errors->hasAny(['email', 'password_confirmation', 'rol'])))
           <div style="color: #dc2626; background: #fef2f2; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 12px; width: 100%;">
             <ul style="margin: 0; padding-left: 20px; text-align: left;">
               @foreach ($errors->all() as $error)
@@ -38,8 +34,15 @@
             </ul>
           </div>
         @endif
+
         <input type="text" name="name" placeholder="{{ __('Nombre de Usuario') }}" value="{{ old('name') }}" required />
         <input type="email" name="email" placeholder="{{ __('Correo Electrónico') }}" value="{{ old('email') }}" required />
+        <select name="rol" required style="background-color: transparent; border: none; border-bottom: 2px solid #ddd; padding: 12px 15px; margin: 8px 0; width: 100%; font-family: 'Poppins', sans-serif; color: #666; cursor: pointer;">
+            <option value="" disabled selected>{{ __('Seleccione un Rol') }}</option>
+            @foreach($roles as $role)
+                <option value="{{ $role->name }}">{{ __($role->name) }}</option>
+            @endforeach
+        </select>
         <input type="password" name="password" id="registerPassword" placeholder="{{ __('Contraseña') }}" required />
         <input type="password" name="password_confirmation" id="registerPasswordConfirmation" placeholder="{{ __('Confirmar Contraseña') }}" required />
         <label style="font-size: 12px; color: #666; display: flex; align-items: center; align-self: flex-start; cursor: pointer; margin-top: 5px;">
@@ -59,16 +62,24 @@
             {{ session('status') }}
           </div>
         @endif
-        @if ($errors->any() && request()->is('login'))
+
+        @if ($errors->has('login') || ($errors->any() && !request()->is('registro') && !$errors->hasAny(['email', 'password_confirmation', 'rol'])))
           <div style="color: #dc2626; background: #fef2f2; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 12px; width: 100%;">
             <ul style="margin: 0; padding-left: 20px; text-align: left;">
-              @foreach ($errors->all() as $error)
+              @foreach ($errors->get('login') as $error)
                 <li>{{ $error }}</li>
               @endforeach
+              @if(!$errors->has('login'))
+                @foreach ($errors->all() as $error)
+                   @if(!in_array($error, $errors->get('login')))
+                    <li>{{ $error }}</li>
+                   @endif
+                @endforeach
+              @endif
             </ul>
           </div>
         @endif
-        <input type="text" name="name" placeholder="{{ __('Nombre de Usuario') }}" value="{{ old('name') }}" required />
+        <input type="text" name="login" placeholder="{{ __('Usuario') }}" value="{{ old('login') }}" required />
         <input type="password" name="password" id="loginPassword" placeholder="{{ __('Contraseña') }}" required />
         <label style="font-size: 12px; color: #666; display: flex; align-items: center; align-self: flex-start; cursor: pointer; margin-top: 5px;">
           <input type="checkbox" id="showLoginPassword" style="width: auto; margin: 0 8px 0 0; padding: 0;">
@@ -99,26 +110,19 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-
       if (typeof Turbo !== 'undefined') {
         Turbo.session.drive = false;
       }
-      
       localStorage.removeItem('theme');
       localStorage.clear();
-      
       document.documentElement.setAttribute('data-bs-theme', 'light');
-      
       @if(session('force_clear'))
         sessionStorage.setItem('force_clear', 'true');
         window.location.href = window.location.href;
       @endif
     });
   </script>
-
   <script src="{{ asset('js/auth.js') }}"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

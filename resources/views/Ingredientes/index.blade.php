@@ -31,7 +31,9 @@
         </div>
 
         <div class="mb-3">
-            <a href="/ingrediente/create" class="btn btn-primary shadow-sm">{{ __('Crear Ingrediente') }}</a>
+            <a href="/ingrediente/create" class="btn btn-primary shadow-sm">
+                <i class="bi bi-plus-circle"></i> {{ __('Crear Ingrediente') }}
+            </a>
         </div>
 
         @if(session('success'))
@@ -67,57 +69,72 @@
                     </td>
 
                     <td>
-                        <a href="/ingrediente/{{ $ingrediente->id }}/edit" class="btn btn-success shadow-sm">{{ __('Editar') }}</a>
+                        <a href="/ingrediente/{{ $ingrediente->id }}/edit" class="btn btn-success shadow-sm">
+                            <i class="bi bi-pencil"></i> {{ __('Editar') }}
+                        </a>
                     </td>
 
                     <td>
-                        <a href="/ingrediente/{{ $ingrediente->id }}" class="btn btn-danger shadow-sm">{{ __('Eliminar') }}</a>
+                        <a href="/ingrediente/{{ $ingrediente->id }}" class="btn btn-danger shadow-sm">
+                            <i class="bi bi-trash"></i> {{ __('Eliminar') }}
+                        </a>
                     </td>
                 </tr>
-
-                <div class="modal fade" id="modalStock{{ $ingrediente->id }}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-primary text-white">
-                                <h5 class="modal-title">{{ __('Surtir') }}: {{ $ingrediente->nombreingre }}</h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <form action="{{ route('ingredientes.agregarStock', $ingrediente->id) }}" method="POST">
-                                @csrf
-                                @method('PATCH')
-                                <div class="modal-body p-4">
-                                    <p class="mb-3">{{ __('Inventario actual') }}: 
-                                        @if($ingrediente->inventario < 0)
-                                            <span class="badge bg-danger px-3 py-2">
-                                                <i class="bi bi-exclamation-triangle-fill"></i> {{ $ingrediente->inventario }} {{ $ingrediente->unidad_medida }} ({{ __('Negativo') }})
-                                            </span>
-                                        @else
-                                            <strong class="text-primary fs-5">{{ $ingrediente->inventario }} {{ $ingrediente->unidad_medida }}</strong>
-                                        @endif
-                                    </p>
-                                    
-                                    @if($ingrediente->inventario < 0)
-                                        <div class="alert alert-warning small py-2 d-flex align-items-center gap-2 border-0 shadow-sm">
-                                            <i class="bi bi-info-circle-fill"></i> {{ __('Tu inventario es negativo. Te recomendamos surtir una cantidad mayor para normalizarlo o editar el ingrediente directamente.') }}
-                                        </div>
-                                    @endif
-                                    <div class="mb-3">
-                                        <label for="cantidad_nueva" class="form-label fw-bold">{{ __('Cantidad a sumar') }}:</label>
-                                        <input type="number" step="0.01" name="cantidad_nueva" class="form-control form-control-lg text-center" placeholder="Ej: 5.00" required autofocus>
-                                        <div class="form-text mt-2">{{ __('Esta cantidad se sumará directamente al total actual.') }}</div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer bg-light border-0">
-                                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">{{ __('Cerrar') }}</button>
-                                    <button type="submit" class="btn btn-primary px-4 shadow-sm">{{ __('Actualizar Inventario') }}</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
                 @endforeach
             </tbody>
         </table>
+
+        @foreach($dIngredientes as $ingrediente)
+        <div class="modal fade" id="modalStock{{ $ingrediente->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">{{ __('Surtir') }}: {{ $ingrediente->nombreingre }}</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('ingredientes.agregarStock', $ingrediente->id) }}" method="POST" data-turbo="false">
+                         @csrf
+                         @method('PATCH')
+                         <div class="modal-body p-4">
+                             @if ($errors->any())
+                                 <div class="alert alert-danger">
+                                     <ul class="mb-0">
+                                         @foreach ($errors->all() as $error)
+                                             <li>{{ $error }}</li>
+                                         @endforeach
+                                     </ul>
+                                 </div>
+                             @endif
+                             <p class="mb-3">{{ __('Inventario actual') }}: 
+                                 @if($ingrediente->inventario < 0)
+                                    <span class="badge bg-danger px-3 py-2">
+                                        <i class="bi bi-exclamation-triangle-fill"></i> {{ $ingrediente->inventario }} {{ $ingrediente->unidad_medida }} ({{ __('Negativo') }})
+                                    </span>
+                                @else
+                                    <strong class="text-primary fs-5">{{ $ingrediente->inventario }} {{ $ingrediente->unidad_medida }}</strong>
+                                @endif
+                            </p>
+                            
+                            @if($ingrediente->inventario < 0)
+                                <div class="alert alert-warning small py-2 d-flex align-items-center gap-2 border-0 shadow-sm">
+                                    <i class="bi bi-info-circle-fill"></i> {{ __('Tu inventario es negativo. Te recomendamos surtir una cantidad mayor para normalizarlo o editar el ingrediente directamente.') }}
+                                </div>
+                            @endif
+                            <div class="mb-3">
+                                <label for="cantidad_nueva_{{ $ingrediente->id }}" class="form-label fw-bold">{{ __('Cantidad a sumar') }}:</label>
+                                <input type="number" step="0.01" name="cantidad_nueva" id="cantidad_nueva_{{ $ingrediente->id }}" class="form-control form-control-lg text-center" placeholder="Ej: 5.00" required autofocus>
+                                <div class="form-text mt-2">{{ __('Esta cantidad se sumará directamente al total actual.') }}</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-light border-0">
+                            <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">{{ __('Cerrar') }}</button>
+                            <button type="submit" class="btn btn-primary px-4 shadow-sm">{{ __('Actualizar Inventario') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @endforeach
     </div>
 
     <!-- Modal de Ayuda -->
