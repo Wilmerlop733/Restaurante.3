@@ -58,19 +58,7 @@
   <canvas id="canvas1"></canvas>
 
   <script src="{{ asset('js/auth.js') }}"></script>
-  <script>
-    const showResetPassword = document.getElementById('showResetPassword');
-    const resetPassword = document.getElementById('resetPassword');
-    const resetPasswordConfirmation = document.querySelector('input[name="password_confirmation"]');
-    
-    if (showResetPassword && resetPassword && resetPasswordConfirmation) {
-        showResetPassword.addEventListener('change', function() {
-            const type = this.checked ? 'text' : 'password';
-            resetPassword.type = type;
-            resetPasswordConfirmation.type = type;
-        });
-    }
-  </script>
+  <script src="{{ asset('js/auth-recuperar.js') }}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

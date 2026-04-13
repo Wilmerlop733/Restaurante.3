@@ -6,20 +6,9 @@
   <title>{{ __('Iniciar Sesión') }} / {{ __('Registro') }}</title>
   <link rel="icon" href="/restaurante.png">
   <link rel="stylesheet" href="{{ asset('css/login-style.css') }}">
-  <script>
-    if (typeof Turbo !== 'undefined') {
-      Turbo.session.drive = false;
-    }
-    localStorage.removeItem('theme');
-    localStorage.clear();
-    document.documentElement.setAttribute('data-bs-theme', 'light');
-    if (sessionStorage.getItem('force_clear')) {
-      sessionStorage.removeItem('force_clear');
-      location.reload();
-    }
-  </script>
+  <script src="{{ asset('js/auth-page-head.js') }}"></script>
 </head>
-<body id="auth-page" data-turbo="false">
+<body id="auth-page" data-turbo="false" data-force-clear="{{ session('force_clear') ? '1' : '0' }}">
   <div class="container {{ (request()->is('registro') || $errors->hasAny(['email', 'password_confirmation', 'rol'])) ? 'right-panel-active' : '' }}" id="container">
     <div class="form-container sign-up-container">
       <form action="/registro" method="POST">
@@ -108,20 +97,7 @@
 
   <canvas id="canvas1"></canvas>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      if (typeof Turbo !== 'undefined') {
-        Turbo.session.drive = false;
-      }
-      localStorage.removeItem('theme');
-      localStorage.clear();
-      document.documentElement.setAttribute('data-bs-theme', 'light');
-      @if(session('force_clear'))
-        sessionStorage.setItem('force_clear', 'true');
-        window.location.href = window.location.href;
-      @endif
-    });
-  </script>
+  <script src="{{ asset('js/auth-login-page.js') }}"></script>
   <script src="{{ asset('js/auth.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
