@@ -55,3 +55,23 @@ body {
 [data-bs-theme="dark"] body {
     background-color: #121212;
 }
+
+.stat-card-green {
+    border-top-color: #10b981;
+}
+
+.stat-card-blue {
+    border-top-color: #3b82f6;
+}
+
+.stat-card-yellow {
+    border-top-color: #f59e0b;
+}
+
+.stat-card-purple {
+    border-top-color: #8b5cf6;
+}
+
+.kpi-purple {
+    color: #8b5cf6;
+}

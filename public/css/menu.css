@@ -1,0 +1,44 @@
+.no-caret::after {
+  display: none;
+}
+
+.dropdown-item:active {
+  background-color: var(--bs-primary);
+}
+
+.admin-link {
+  transition: all 0.3s ease;
+  opacity: 0.95;
+}
+
+.admin-link:hover {
+  opacity: 1;
+  filter: brightness(1.1);
+  transform: scale(1.02);
+  z-index: 10;
+}
+
+.menu-container {
+  margin-top: 1.25rem !important;
+}
+
+.menu-admin-card {
+  border-radius: 15px;
+}
+
+.admin-link-dashboard {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+}
+
+.admin-link-users {
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+}
+
+.admin-label {
+  letter-spacing: 1px;
+}
+
+.menu-img {
+  height: 400px;
+  object-fit: cover;
+}

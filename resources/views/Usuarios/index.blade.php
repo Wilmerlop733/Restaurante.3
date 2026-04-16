@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios - Restaurante</title>
+    <script src="{{ asset('js/theme-head.js') }}"></script>
     <link rel="icon" href="/restaurante.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/css/theme.css">
-    <script src="{{ asset('js/theme-head.js') }}"></script>
     <script src="https://unpkg.com/@hotwired/turbo@7.1.0/dist/turbo.es2017-umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @include('Partes.theme-init')
 </head>
 <body>
-    <div class="container" style="margin-top: 1.25rem !important;">
-        @include('partials.navbar')
+    <div class="container page-container">
+        @include('Partes.navbar')
         <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
             <div>
                 <h1 class="mb-0"><i class="bi bi-people-fill text-primary"></i> {{ __('Gestión de Usuarios') }}</h1>

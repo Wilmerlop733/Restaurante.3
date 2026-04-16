@@ -5,44 +5,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menú</title>
+    <script src="{{ asset('js/theme-head.js') }}"></script>
   <link rel="icon" href="/restaurante.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="/css/theme.css?v=1.1">
-  <script src="{{ asset('js/theme-head.js') }}"></script>
+  <link rel="stylesheet" href="/css/menu.css">
   <script src="https://unpkg.com/@hotwired/turbo@7.1.0/dist/turbo.es2017-umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @include('Partes.theme-init')
 </head>
 
 <body class="bg-body-tertiary">
 
-  <div class="container text-center" style="margin-top: 1.25rem !important;">
-    @include('partials.navbar')
-
-    <style>
-      .no-caret::after { display: none; }
-      .dropdown-item:active { background-color: var(--bs-primary); }
-    </style>
+  <div class="container text-center menu-container">
+    @include('Partes.navbar')
 
     <h1 class="mb-4">{{ __('Menú principal') }}</h1>
 
     @role('Admin')
-    <div class="card border-0 shadow-sm mb-4 overflow-hidden" style="border-radius: 15px;">
+    <div class="card border-0 shadow-sm mb-4 overflow-hidden menu-admin-card">
       <div class="card-body p-0">
         <div class="row g-0">
           <div class="col-md-6">
-            <a href="/dashboard" class="d-flex align-items-center justify-content-center py-4 text-decoration-none transition-all admin-link" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);">
+            <a href="/dashboard" class="d-flex align-items-center justify-content-center py-4 text-decoration-none transition-all admin-link admin-link-dashboard">
               <div class="text-white text-center">
                 <i class="bi bi-speedometer2 fs-2 mb-1 d-block"></i>
-                <span class="fw-bold text-uppercase small" style="letter-spacing: 1px;">{{ __('Panel de Control') }}</span>
+                <span class="fw-bold text-uppercase small admin-label">{{ __('Panel de Control') }}</span>
               </div>
             </a>
           </div>
           <div class="col-md-6 border-start border-white border-opacity-10">
-            <a href="{{ route('usuarios.index') }}" class="d-flex align-items-center justify-content-center py-4 text-decoration-none transition-all admin-link" style="background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);">
+            <a href="{{ route('usuarios.index') }}" class="d-flex align-items-center justify-content-center py-4 text-decoration-none transition-all admin-link admin-link-users">
               <div class="text-white text-center">
                 <i class="bi bi-people-fill fs-2 mb-1 d-block"></i>
-                <span class="fw-bold text-uppercase small" style="letter-spacing: 1px;">{{ __('Gestión de Usuarios') }}</span>
+                <span class="fw-bold text-uppercase small admin-label">{{ __('Gestión de Usuarios') }}</span>
               </div>
             </a>
           </div>
@@ -50,18 +47,6 @@
       </div>
     </div>
 
-    <style>
-      .admin-link {
-        transition: all 0.3s ease;
-        opacity: 0.95;
-      }
-      .admin-link:hover {
-        opacity: 1;
-        filter: brightness(1.1);
-        transform: scale(1.02);
-        z-index: 10;
-      }
-    </style>
     @endrole
 
     <div class="row justify-content-center mb-4">
@@ -97,16 +82,16 @@
 
     <div class="row mb-4">
       <div class="col-md-3">
-        <img src="/imag/jay-wennington-N_Y88TWmGwA-unsplash.jpg" class="img-fluid rounded shadow-sm menu-img" style="height: 400px; object-fit: cover;" alt="Foto">
+        <img src="/imag/jay-wennington-N_Y88TWmGwA-unsplash.jpg" class="img-fluid rounded shadow-sm menu-img" alt="Foto">
       </div>
       <div class="col-md-3">
-        <img src="/imag/tim-mossholder-FH3nWjvia-U-unsplash (1).jpg" class="img-fluid rounded shadow-sm menu-img" style="height: 400px; object-fit: cover;" alt="Foto">
+        <img src="/imag/tim-mossholder-FH3nWjvia-U-unsplash (1).jpg" class="img-fluid rounded shadow-sm menu-img" alt="Foto">
       </div>
       <div class="col-md-3">
-        <img src="/imag/sandra-seitamaa-OFJGlG3sKik-unsplash.jpg" class="img-fluid rounded shadow-sm menu-img" style="height: 400px; object-fit: cover;" alt="Foto">
+        <img src="/imag/sandra-seitamaa-OFJGlG3sKik-unsplash.jpg" class="img-fluid rounded shadow-sm menu-img" alt="Foto">
       </div>
       <div class="col-md-3">
-        <img src="/imag/kevin-charit-QusXD31z0G4-unsplash.jpg" class="img-fluid rounded shadow-sm menu-img" style="height: 400px; object-fit: cover;" alt="Foto">
+        <img src="/imag/kevin-charit-QusXD31z0G4-unsplash.jpg" class="img-fluid rounded shadow-sm menu-img" alt="Foto">
       </div>
     </div>
   </div>

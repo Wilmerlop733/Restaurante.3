@@ -77,3 +77,31 @@ input:checked + .slider:before {
 .transition-all {
     transition: all 0.3s ease;
 }
+
+.page-container {
+    margin-top: 1.25rem !important;
+}
+
+.plato-thumb {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.plato-thumb-placeholder {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    opacity: 0.5;
+}
+
+.cliente-card-img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.guia-icon-circle {
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+}

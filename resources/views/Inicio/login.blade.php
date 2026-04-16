@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ __('Iniciar Sesión') }} / {{ __('Registro') }}</title>
+    <script src="{{ asset('js/theme-head.js') }}"></script>
   <link rel="icon" href="/restaurante.png">
   <link rel="stylesheet" href="{{ asset('css/login-style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
   <script src="{{ asset('js/auth-page-head.js') }}"></script>
 </head>
 <body id="auth-page" data-turbo="false" data-force-clear="{{ session('force_clear') ? '1' : '0' }}">
@@ -15,8 +17,8 @@
         @csrf
         <h1>{{ __('Crear Cuenta') }}</h1>
         @if ($errors->hasAny(['name', 'email', 'password', 'rol']) && (request()->is('registro') || $errors->hasAny(['email', 'password_confirmation', 'rol'])))
-          <div style="color: #dc2626; background: #fef2f2; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 12px; width: 100%;">
-            <ul style="margin: 0; padding-left: 20px; text-align: left;">
+          <div class="auth-error-box">
+            <ul class="auth-error-list">
               @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
               @endforeach
@@ -26,7 +28,7 @@
 
         <input type="text" name="name" placeholder="{{ __('Nombre de Usuario') }}" value="{{ old('name') }}" required />
         <input type="email" name="email" placeholder="{{ __('Correo Electrónico') }}" value="{{ old('email') }}" required />
-        <select name="rol" required style="background-color: transparent; border: none; border-bottom: 2px solid #ddd; padding: 12px 15px; margin: 8px 0; width: 100%; font-family: 'Poppins', sans-serif; color: #666; cursor: pointer;">
+        <select name="rol" required class="auth-select">
             <option value="" disabled selected>{{ __('Seleccione un Rol') }}</option>
             @foreach($roles as $role)
                 <option value="{{ $role->name }}">{{ __($role->name) }}</option>
@@ -34,11 +36,11 @@
         </select>
         <input type="password" name="password" id="registerPassword" placeholder="{{ __('Contraseña') }}" required />
         <input type="password" name="password_confirmation" id="registerPasswordConfirmation" placeholder="{{ __('Confirmar Contraseña') }}" required />
-        <label style="font-size: 12px; color: #666; display: flex; align-items: center; align-self: flex-start; cursor: pointer; margin-top: 5px;">
-          <input type="checkbox" id="showRegisterPassword" style="width: auto; margin: 0 8px 0 0; padding: 0;">
+        <label class="auth-show-password">
+          <input type="checkbox" id="showRegisterPassword">
           {{ __('Mostrar contraseñas') }}
         </label>
-        <button type="submit" style="margin-top: 15px;">{{ __('Registrar') }}</button>
+        <button type="submit" class="auth-submit-btn">{{ __('Registrar') }}</button>
       </form>
     </div>
     
@@ -47,14 +49,14 @@
         @csrf
         <h1>{{ __('Iniciar Sesión') }}</h1>
         @if (session('status'))
-          <div style="color: #059669; background: #ecfdf5; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 12px; width: 100%;">
+          <div class="auth-success-box">
             {{ session('status') }}
           </div>
         @endif
 
         @if ($errors->has('login') || ($errors->any() && !request()->is('registro') && !$errors->hasAny(['email', 'password_confirmation', 'rol'])))
-          <div style="color: #dc2626; background: #fef2f2; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 12px; width: 100%;">
-            <ul style="margin: 0; padding-left: 20px; text-align: left;">
+          <div class="auth-error-box">
+            <ul class="auth-error-list">
               @foreach ($errors->get('login') as $error)
                 <li>{{ $error }}</li>
               @endforeach
@@ -70,8 +72,8 @@
         @endif
         <input type="text" name="login" placeholder="{{ __('Usuario') }}" value="{{ old('login') }}" required />
         <input type="password" name="password" id="loginPassword" placeholder="{{ __('Contraseña') }}" required />
-        <label style="font-size: 12px; color: #666; display: flex; align-items: center; align-self: flex-start; cursor: pointer; margin-top: 5px;">
-          <input type="checkbox" id="showLoginPassword" style="width: auto; margin: 0 8px 0 0; padding: 0;">
+        <label class="auth-show-password">
+          <input type="checkbox" id="showLoginPassword">
           {{ __('Mostrar contraseña') }}
         </label>
         <a href="/recuperar">{{ __('¿Olvidaste tu contraseña?') }}</a>

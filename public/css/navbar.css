@@ -54,3 +54,38 @@ input:checked + .slider { background-color: #3b82f6; }
 input:checked + .slider:before { transform: translateX(22px); }
 
 .dropdown-menu.show { display: block !important; }
+
+.global-navbar-container {
+    z-index: 1030;
+}
+
+.navbar-lang-btn {
+    min-width: 85px;
+    z-index: 1031 !important;
+}
+
+.navbar-flag-img {
+    width: 25px;
+    height: 16px;
+    object-fit: cover;
+}
+
+.navbar-chevron-icon {
+    font-size: 0.8rem;
+}
+
+.navbar-lang-menu {
+    border-radius: 12px;
+    min-width: 150px;
+    z-index: 1032 !important;
+}
+
+.navbar-dropdown-flag {
+    width: 24px;
+    height: 16px;
+    object-fit: cover;
+}
+
+.navbar-theme-icon {
+    font-size: 1rem;
+}

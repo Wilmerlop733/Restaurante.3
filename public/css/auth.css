@@ -1,0 +1,71 @@
+.auth-error-box {
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 12px;
+  width: 100%;
+}
+
+.auth-success-box {
+  color: #059669;
+  background: #ecfdf5;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 12px;
+  width: 100%;
+}
+
+.auth-error-list {
+  margin: 0;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.auth-select {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #ddd;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  color: #666;
+  cursor: pointer;
+}
+
+.auth-show-password {
+  font-size: 12px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.auth-show-password input[type="checkbox"] {
+  width: auto;
+  margin: 0 8px 0 0;
+  padding: 0;
+}
+
+.auth-submit-btn {
+  margin-top: 15px;
+}
+
+.auth-subtitle {
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.auth-form-half {
+  width: 50%;
+}
+
+.auth-recuperar-body {
+  background-color: #fff !important;
+  color: #333 !important;
+}

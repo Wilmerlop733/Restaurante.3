@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ __('Dashboard Admin') }}</title>
+    <script src="{{ asset('js/theme-head.js') }}"></script>
     <link rel="icon" href="/restaurante.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -11,7 +12,6 @@
     <link rel="stylesheet" href="/css/theme.css">
     
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="{{ asset('js/theme-head.js') }}"></script>
 
     <link rel="stylesheet" href="/css/dashboard.css">
 </head>
@@ -34,27 +34,27 @@
     <div class="container-fluid px-4">
         <div class="row mb-4">
             <div class="col-md-3">
-                <div class="stat-card" style="border-top-color: #10b981;">
+                <div class="stat-card stat-card-green">
                     <h6 class="text-muted text-uppercase mb-2">{{ __('Ingresos Totales') }}</h6>
                     <h2 class="fw-bold mb-0 text-success">L. <span id="kpi-ingresos">--</span></h2>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat-card" style="border-top-color: #3b82f6;">
+                <div class="stat-card stat-card-blue">
                     <h6 class="text-muted text-uppercase mb-2">{{ __('Total Pedidos') }}</h6>
                     <h2 class="fw-bold mb-0 text-primary" id="kpi-pedidos">--</h2>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat-card" style="border-top-color: #f59e0b;">
+                <div class="stat-card stat-card-yellow">
                     <h6 class="text-muted text-uppercase mb-2">{{ __('Total Platos') }}</h6>
                     <h2 class="fw-bold mb-0 text-warning" id="kpi-platos">--</h2>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat-card" style="border-top-color: #8b5cf6;">
+                <div class="stat-card stat-card-purple">
                     <h6 class="text-muted text-uppercase mb-2">{{ __('Ingredientes') }}</h6>
-                    <h2 class="fw-bold mb-0" style="color: #8b5cf6;" id="kpi-ingredientes">--</h2>
+                    <h2 class="fw-bold mb-0 kpi-purple" id="kpi-ingredientes">--</h2>
                 </div>
             </div>
         </div>

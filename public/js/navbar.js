@@ -4,6 +4,7 @@
   }
 
   window.initNavbar = function () {
+
     var themeCheckbox = document.getElementById('themeCheckbox');
     if (themeCheckbox) {
       var currentTheme = localStorage.getItem('theme') || 'light';
@@ -17,24 +18,57 @@
       };
     }
 
-    var attempts = 0;
-    function initDropdowns() {
+    function initAllDropdowns() {
+      document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function (toggleEl) {
+        var instance = bootstrap.Dropdown.getInstance(toggleEl);
+        if (instance) instance.dispose();
+      });
+
+      document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function (toggleEl) {
+        try {
+          new bootstrap.Dropdown(toggleEl, { boundary: 'window' });
+        } catch (err) {
+          console.warn('Dropdown init failed:', err);
+        }
+      });
+    }
+
+    let attempts = 0;
+    const maxAttempts = 50;
+    function retryInit() {
       if (typeof bootstrap !== 'undefined' && bootstrap.Dropdown) {
-        document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function (dropdownToggleEl) {
-          try {
-            var prev = bootstrap.Dropdown.getInstance(dropdownToggleEl);
-            if (prev) prev.dispose();
-            new bootstrap.Dropdown(dropdownToggleEl);
-          } catch (err) {
-            console.error('Error initializing dropdown:', err);
-          }
-        });
-      } else if (attempts < 20) {
-        attempts += 1;
-        setTimeout(initDropdowns, 100);
+        initAllDropdowns();
+      } else if (attempts < maxAttempts) {
+        attempts++;
+        setTimeout(retryInit, 50);
       }
     }
-    initDropdowns();
+    retryInit();
+
+    const observer = new MutationObserver(function() {
+      setTimeout(initAllDropdowns, 100);
+    });
+
+    const langContainer = document.getElementById('langDropdownContainer');
+    if (langContainer) {
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    document.addEventListener('click', function(e) {
+      const link = e.target.closest('a[href^="/lang/"]');
+      if (link) {
+        e.preventDefault();
+        const locale = link.getAttribute('href').split('/').pop();
+        fetch('/lang/' + locale, {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') || '',
+            'Accept': 'application/json'
+          }
+        }).then(() => window.location.reload())
+        .catch(() => window.location = link.href);
+      }
+    });
   };
 
   document.addEventListener('turbo:load', window.initNavbar);
@@ -44,4 +78,4 @@
   } else {
     window.addEventListener('load', window.initNavbar);
   }
-})();
+ })();

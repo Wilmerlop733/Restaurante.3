@@ -4,25 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ __('Recuperar Contraseña') }}</title>
-  <style>
-    body { background-color: #fff !important; color: #333 !important; }
-  </style>
+    <script src="{{ asset('js/theme-head.js') }}"></script>
   <link rel="icon" href="/restaurante.png">
   <link rel="stylesheet" href="{{ asset('css/login-style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 </head>
-<body id="auth-page">
+<body id="auth-page" class="auth-recuperar-body">
 
   <div class="container" id="container">
     
-    <div class="form-container sign-in-container" style="width: 50%;">
+    <div class="form-container sign-in-container auth-form-half">
       <form action="/recuperar" method="POST">
         @csrf
         <h1>{{ __('Restablecer') }}</h1>
-        <span style="font-size: 11px; margin-top: 5px;">{{ __('Ingresa tus datos para crear una nueva contraseña.') }}</span>
+        <span class="auth-subtitle">{{ __('Ingresa tus datos para crear una nueva contraseña.') }}</span>
         
         @if ($errors->any())
-          <div style="color: #dc2626; background: #fef2f2; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 11px; width: 100%;">
-            <ul style="margin: 0; padding-left: 20px; text-align: left;">
+          <div class="auth-error-box">
+            <ul class="auth-error-list">
               @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
               @endforeach
@@ -35,13 +34,13 @@
         <input type="password" name="password" id="resetPassword" placeholder="{{ __('Nueva Contraseña') }}" required />
         <input type="password" name="password_confirmation" placeholder="{{ __('Confirmar Contraseña') }}" required />
         
-        <label style="font-size: 12px; color: #666; display: flex; align-items: center; align-self: flex-start; cursor: pointer; margin-top: 5px;">
-          <input type="checkbox" id="showResetPassword" style="width: auto; margin: 0 8px 0 0; padding: 0;">
+        <label class="auth-show-password">
+          <input type="checkbox" id="showResetPassword">
           {{ __('Mostrar contraseña') }}
         </label>
 
-        <button type="submit" style="margin-top: 15px;">{{ __('Cambiar Contraseña') }}</button>
-        <a href="/login" style="margin-top: 15px;">← {{ __('Volver al login') }}</a>
+        <button type="submit" class="auth-submit-btn">{{ __('Cambiar Contraseña') }}</button>
+        <a href="/login" class="auth-submit-btn">← {{ __('Volver al login') }}</a>
       </form>
     </div>
     

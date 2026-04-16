@@ -152,7 +152,10 @@
     initCharts();
   }
 
-  document.addEventListener('DOMContentLoaded', startDashboard);
-  document.addEventListener('turbo:load', startDashboard);
+  // Since this script is loaded at the end of the body specifically for the dashboard,
+  // we execute it immediately to avoid missing Turbo's turbo:load event.
+  startDashboard();
+  
+  // Clean up before navigating away
   document.addEventListener('turbo:before-cache', teardown);
 })();
